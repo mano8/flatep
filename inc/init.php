@@ -36,7 +36,22 @@ function flatep_after_setup_theme(){
     //-> Add admin cuztomize options
     if(current_user_can( 'manage_options')){
         require get_stylesheet_directory() . '/inc/admin/admin-init.php';
-      }
+    }
+
+    /**
+     * Flatsome Shortcodes.
+     */
+
+    require get_stylesheet_directory() . '/inc/shortcodes/ux_events_list_grouped.php';
+
+
+    /**
+     * UX Builder
+     */
+    if(is_flatep()){
+        require get_stylesheet_directory() . '/inc/builder/builder.php';
+    }
     
-  }
-  add_action( 'after_setup_theme', 'flatep_after_setup_theme', 10 );
+}
+add_action( 'after_setup_theme', 'flatep_after_setup_theme', 10 );
+
