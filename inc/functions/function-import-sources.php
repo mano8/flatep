@@ -8,6 +8,28 @@
  */
 function flatep_sources_data(){
     return array(
+        //-> 
+        'flatsome-js' => array(
+            'type' => 'script',
+            'handle' => 'flatsome-js',
+            'src' => get_stylesheet_directory_uri() . '/assets/js/flatsome.js',
+            'integrity' => false,
+            'crossorigin' => false,
+            'deps' => array('jquery', 'hoverIntent'),
+            'ver' => null,
+            'on_footer' => true,
+        ),
+        //-> 
+        'flatsome-infinite-scroll' => array(
+            'type' => 'script',
+            'handle' => 'flatsome-infinite-scroll',
+            'src' => get_stylesheet_directory_uri() . '/assets/js/third/flatsome-infinite-scroll/flatsome-infinite-scroll.js',
+            'integrity' => false,
+            'crossorigin' => false,
+            'deps' => array( 'jquery', 'flatsome-js' ),
+            'ver' => null,
+            'on_footer' => true,
+        ),
         //-> <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
         'jquery-cdn-1-12-4' => array(
             'type' => 'script',
