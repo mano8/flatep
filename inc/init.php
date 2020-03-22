@@ -6,10 +6,12 @@
  * @package flatep
  */
 
+ 
  /**
  * Setup.
  * Enqueue styles, register widget regions, etc.
  */
+require get_stylesheet_directory() . '/inc/functions/function-debug.php';
 require get_stylesheet_directory() . '/inc/functions/function-conditionals.php';
 
 /**
@@ -43,6 +45,7 @@ function flatep_after_setup_theme(){
      */
 
     require get_stylesheet_directory() . '/inc/shortcodes/ux_events_list_grouped.php';
+    require get_stylesheet_directory() . '/inc/shortcodes/ux_banner.php';
 
 
     /**

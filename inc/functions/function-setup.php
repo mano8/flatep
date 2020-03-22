@@ -7,11 +7,12 @@
  * @package FlaTep\Functions
  */
 
+
+
 class FlaTep_Setup{
     private $sources;
     private $versions;
     private $debug;
-    private $level;
 
     /**
 	 * Test if sources property is defined 
@@ -173,7 +174,7 @@ class FlaTep_Setup{
 		$ver = $this->get_source_key($handle_ver, 'ver');
         $on_footer = $this->get_source_key($handle_ver, 'on_footer');
         $media = $this->get_source_key($handle_ver, 'media');
-        $this->print_debug( 4, 'Update Enqueues -- Handle : '.$handle.' -- handle_ver : '.$handle_ver.' -- type : '.$type );
+        FlaTep_Debug::print_debug( 4, 'Update Enqueues -- Handle : '.$handle.' -- handle_ver : '.$handle_ver.' -- type : '.$type );
         $register = false;
         
 		if($type === 'script'){
@@ -183,7 +184,7 @@ class FlaTep_Setup{
                     wp_enqueue_script($handle);
                     $register = true;
                 }
-                else{ $this->print_debug( 3, sprintf('Script %s is registered --> dequeue error -- is_enqueued : %d', $handle, wp_script_is( $handle, 'enqueued' )) ); }
+                else{ FlaTep_Debug::print_debug( 3, sprintf('Script %s is registered --> dequeue error -- is_enqueued : %d', $handle, wp_script_is( $handle, 'enqueued' )) ); }
 			}
 			else{
 				if($force_register === true){
@@ -192,14 +193,14 @@ class FlaTep_Setup{
                         wp_enqueue_script($handle);
                         $register = true;
                     }
-                    else{ $this->print_debug( 3, sprintf('Script %s is not registered (force_register) --> dequeue error -- is_enqueued : %d', $handle, wp_script_is( $handle, 'enqueued' )) ); }
+                    else{ FlaTep_Debug::print_debug( 3, sprintf('Script %s is not registered (force_register) --> dequeue error -- is_enqueued : %d', $handle, wp_script_is( $handle, 'enqueued' )) ); }
 				}
 				else{
 					if($this->dequeue_script($handle)) { 
                         wp_enqueue_script($handle, $src, $deps, $ver, $on_footer); 
                         $register = true;
                     }
-                    else{ $this->print_debug( 3, sprintf('Script %s is not registered --> dequeue error -- is_enqueued : %d', $handle, wp_script_is( $handle, 'enqueued' )) ); }
+                    else{ FlaTep_Debug::print_debug( 3, sprintf('Script %s is not registered --> dequeue error -- is_enqueued : %d', $handle, wp_script_is( $handle, 'enqueued' )) ); }
 				}
             }
             
@@ -212,7 +213,7 @@ class FlaTep_Setup{
                     wp_enqueue_style($handle);
                     $register = true;
                 }
-                else{ $this->print_debug( 3, sprintf('Style %s is registered --> dequeue error -- is_enqueued : %d', $handle, wp_style_is( $handle, 'enqueued' )) ); }
+                else{ FlaTep_Debug::print_debug( 3, sprintf('Style %s is registered --> dequeue error -- is_enqueued : %d', $handle, wp_style_is( $handle, 'enqueued' )) ); }
 			}
 			else{
 				if($force_register === true){
@@ -221,7 +222,7 @@ class FlaTep_Setup{
                         wp_enqueue_style($handle);
                         $register = true;
                     }
-                    else{ $this->print_debug( 3, sprintf('Style %s is not registered (force_register) --> dequeue error -- is_enqueued : %d', $handle, wp_style_is( $handle, 'enqueued' )) ); }
+                    else{ FlaTep_Debug::print_debug( 3, sprintf('Style %s is not registered (force_register) --> dequeue error -- is_enqueued : %d', $handle, wp_style_is( $handle, 'enqueued' )) ); }
 					
 				}
 				else{
@@ -229,7 +230,7 @@ class FlaTep_Setup{
                         wp_enqueue_style($handle, $src, $deps, $ver, $media);
                         $register = true;
                     }
-                    else{ $this->print_debug( 3, sprintf('Style %s is not registered --> dequeue error -- is_enqueued : %d', $handle, wp_style_is( $handle, 'enqueued' )) ); }
+                    else{ FlaTep_Debug::print_debug( 3, sprintf('Style %s is not registered --> dequeue error -- is_enqueued : %d', $handle, wp_style_is( $handle, 'enqueued' )) ); }
 				}
             }
         }
@@ -247,30 +248,18 @@ class FlaTep_Setup{
 	private function replace_sources_list($list){
         $tst = false;
         if(is_array($list)){
-            $this->print_debug( 4, 'Replace sources from list list_items -> '.count($list) );
+            FlaTep_Debug::print_debug( 4, 'Replace sources from list list_items -> '.count($list) );
             $type = ''; $tst_i = true; $tst = true;
             foreach ($list as $value) {
                 $type = $this->get_source_key($value, 'type'); 
                 if( !empty($type) ){
                     $tst_i = $this->flatep_update_enqueues($this->get_source_key($value, 'handle'), $value, true);
-                    $this->print_debug( 3, sprintf('Replace enqueued %s -- %s -- test : %d', $type, $value, $tst_i) );
+                    FlaTep_Debug::print_debug( 3, sprintf('Replace enqueued %s -- %s -- test : %d', $type, $value, $tst_i) );
                     $tst = (!$tst_i) ? false : $tst;
                 }
             }
         }
         return $tst;		
-    }
-    
-    /**
-	 * Replace to cdn providers list of handles
-	 *
-	 * @since   1.0.0
-	 */
-	private function print_debug($level, $msg){
-        // Start the 'foo' timer:
-        if($this->debug && $this->level > 0 && $level <= $this->level){
-            do_action( 'qm/debug', $msg );
-        }		
     }
 
     /**
@@ -279,19 +268,16 @@ class FlaTep_Setup{
 	 * @since   1.0.0
 	 */
     function __construct(){
-		// Start the 'foo' timer:
-        $this->debug     = (get_theme_mod( 'flatep_debug', false ) === true) ? true : false;
-        $this->level     = intval(get_theme_mod( 'flatep_debug_level', 3 ));
-        $this->level     = ($this->level > 0 && $this->level < 5) ? $this->level : 3;
+		// 
         $this->sources   = array();
         $this->versions  = array();
         
-        $this->print_debug(4, 'Start FlaTep Header Structure Class -- debug : '.$this->debug. ' -- level : ' . $this->level);
-        if($this->debug) {do_action( 'qm/start', 'FlaTep_Setup' );}
+        FlaTep_Debug::print_debug( 4, 'Start FlaTep Header Structure Class');
+        FlaTep_Debug::start_timer( 4, 'FlaTep_Setup' );
         
         $this->run();
         
-        if($this->debug) {do_action( 'qm/stop', 'FlaTep_Setup' );}
+        FlaTep_Debug::stop_timer( 4, 'FlaTep_Setup' );
     }
     
     /**
@@ -305,7 +291,7 @@ class FlaTep_Setup{
             if(function_exists('flatep_sources_data')){
                 $this->sources = flatep_sources_data();
                 $nb = (is_array($this->sources)) ? count($this->sources) : 0;
-                $this->print_debug( 5, 'Data Sources initialized -> ' . $nb);
+                FlaTep_Debug::print_debug( 5, 'Data Sources initialized -> ' . $nb);
             }
         }
         
@@ -395,7 +381,7 @@ class FlaTep_Setup{
                 }
             }
         }
-        $debug = ($this->debug) ? ' <!--Handle : '.sanitize_key($handle).'-->' : '';
+        $debug = (FlaTep_Debug::is_debug()) ? ' <!--Handle : '.sanitize_key($handle).'-->' : '';
 		return ($html . $debug);
     }
     
@@ -422,7 +408,7 @@ class FlaTep_Setup{
 		$tst = true;
 		// Check if WooCommerce plugin is active
 		$tst = $this->replace_sources_list($list);
-		$this->print_debug( 3, 'Replace enqueued scripts -> '.(($tst ===true) ? 'True' : 'False') );
+		FlaTep_Debug::print_debug( 3, 'Replace enqueued scripts -> '.(($tst ===true) ? 'True' : 'False') );
 		return $tst;
     }
     /**
@@ -451,7 +437,7 @@ class FlaTep_Setup{
 				break;
         }
         
-        $this->print_debug( 4, 'Select jQuery Version -> '.(($tst ===true) ? 'True' : 'False') );
+        FlaTep_Debug::print_debug( 4, 'Select jQuery Version -> '.(($tst ===true) ? 'True' : 'False') );
 		return $tst;
     }
     /**
@@ -476,7 +462,7 @@ class FlaTep_Setup{
 				break;
         }
 
-		$this->print_debug( 4, 'Select jQuery Migrate Version -> '.(($tst ===true) ? 'True' : 'False') );
+		FlaTep_Debug::print_debug( 4, 'Select jQuery Migrate Version -> '.(($tst ===true) ? 'True' : 'False') );
 		return $tst;
 	}
     

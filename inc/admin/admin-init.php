@@ -11,5 +11,7 @@
 
 if(is_customize_preview()){
     // Include Options Helpers
-    include_once(dirname( __FILE__ ).'/options/options-flatep/options-flatep.php');
+    include_once(dirname( __FILE__ ).'/options/flatep/options-flatep.php');
+    // Include Options Helpers
+    include_once(dirname( __FILE__ ).'/options/header/options-header.php');
 }

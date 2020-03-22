@@ -1,4 +1,4 @@
-<?php if(flatsome_has_bottom_bar()['large_or_mobile']) {
+<?php if( flatsome_has_bottom_bar()['large_or_mobile'] && is_flatep_bar_active('bottom') ) {
 ?>
 <div id="wide-nav" class="header-bottom wide-nav <?php header_inner_class('bottom'); ?>">
     <div class="flex-row container">
