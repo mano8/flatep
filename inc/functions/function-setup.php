@@ -13,6 +13,7 @@ class FlaTep_Setup{
     private $sources;
     private $versions;
     private $debug;
+    private $source_handles;
 
     /**
 	 * Test if sources property is defined 
@@ -153,6 +154,32 @@ class FlaTep_Setup{
 		}
 		return false;
     }
+
+    /**
+	 * Dequeue and/or deregister style list defined by $handles
+     * 
+     * If $handle style is registered, deregister it.
+     * And if is enqueued the style is dequeued.
+     * 
+	 * @since   1.0.0
+     * 
+	 * @param array     $handles Handle List of style to dequeue
+	 * @return bool     Return True if style is already enqueued before dequeue. False if not enqueued and not dequeued.
+     */
+	private function dequeue_style_list($handles){
+        $nb = 0;
+		if( is_array($handles)){
+			foreach ($handles as $key => $value) {
+				if( $value === "style" ){
+					if($this->dequeue_style($key)) {$nb++;};
+				}
+				else if ( $value === "script" ){
+					if($this->dequeue_script($key)) {$nb++;};
+				}
+			}
+		}
+		return $nb;
+    }
     
 
     /**
@@ -174,7 +201,7 @@ class FlaTep_Setup{
 		$ver = $this->get_source_key($handle_ver, 'ver');
         $on_footer = $this->get_source_key($handle_ver, 'on_footer');
         $media = $this->get_source_key($handle_ver, 'media');
-        FlaTep_Debug::print_debug( 4, 'Update Enqueues -- Handle : '.$handle.' -- handle_ver : '.$handle_ver.' -- type : '.$type );
+        if( $this->debug ){ FlaTep_Debug::print_debug( 4, sprintf('Update Enqueues -- Handle : %s -- handle_ver : %s -- type : %s',$handle, $handle_ver, $type) ); }
         $register = false;
         
 		if($type === 'script'){
@@ -184,7 +211,9 @@ class FlaTep_Setup{
                     wp_enqueue_script($handle);
                     $register = true;
                 }
-                else{ FlaTep_Debug::print_debug( 3, sprintf('Script %s is registered --> dequeue error -- is_enqueued : %d', $handle, wp_script_is( $handle, 'enqueued' )) ); }
+                else{ 
+                    if( $this->debug ){ FlaTep_Debug::print_debug( 4, sprintf('Script %s is registered --> dequeue error -- is_enqueued : %d', $handle, wp_script_is( $handle, 'enqueued' )) ); } 
+                }
 			}
 			else{
 				if($force_register === true){
@@ -193,14 +222,18 @@ class FlaTep_Setup{
                         wp_enqueue_script($handle);
                         $register = true;
                     }
-                    else{ FlaTep_Debug::print_debug( 3, sprintf('Script %s is not registered (force_register) --> dequeue error -- is_enqueued : %d', $handle, wp_script_is( $handle, 'enqueued' )) ); }
+                    else{ 
+                        if( $this->debug ){ FlaTep_Debug::print_debug( 4, sprintf('Script %s is not registered (force_register) --> dequeue error -- is_enqueued : %d', $handle, wp_script_is( $handle, 'enqueued' )) ); } 
+                    }
 				}
 				else{
 					if($this->dequeue_script($handle)) { 
                         wp_enqueue_script($handle, $src, $deps, $ver, $on_footer); 
                         $register = true;
                     }
-                    else{ FlaTep_Debug::print_debug( 3, sprintf('Script %s is not registered --> dequeue error -- is_enqueued : %d', $handle, wp_script_is( $handle, 'enqueued' )) ); }
+                    else{ 
+                        if( $this->debug ){ FlaTep_Debug::print_debug( 4, sprintf('Script %s is not registered --> dequeue error -- is_enqueued : %d', $handle, wp_script_is( $handle, 'enqueued' )) ); } 
+                    }
 				}
             }
             
@@ -213,7 +246,9 @@ class FlaTep_Setup{
                     wp_enqueue_style($handle);
                     $register = true;
                 }
-                else{ FlaTep_Debug::print_debug( 3, sprintf('Style %s is registered --> dequeue error -- is_enqueued : %d', $handle, wp_style_is( $handle, 'enqueued' )) ); }
+                else{ 
+                    if( $this->debug ){ FlaTep_Debug::print_debug( 4, sprintf('Style %s is registered --> dequeue error -- is_enqueued : %d', $handle, wp_style_is( $handle, 'enqueued' )) ); } 
+                }
 			}
 			else{
 				if($force_register === true){
@@ -222,7 +257,9 @@ class FlaTep_Setup{
                         wp_enqueue_style($handle);
                         $register = true;
                     }
-                    else{ FlaTep_Debug::print_debug( 3, sprintf('Style %s is not registered (force_register) --> dequeue error -- is_enqueued : %d', $handle, wp_style_is( $handle, 'enqueued' )) ); }
+                    else{ 
+                        if( $this->debug ){ FlaTep_Debug::print_debug( 4, sprintf('Style %s is not registered (force_register) --> dequeue error -- is_enqueued : %d', $handle, wp_style_is( $handle, 'enqueued' )) ); } 
+                    }
 					
 				}
 				else{
@@ -230,7 +267,9 @@ class FlaTep_Setup{
                         wp_enqueue_style($handle, $src, $deps, $ver, $media);
                         $register = true;
                     }
-                    else{ FlaTep_Debug::print_debug( 3, sprintf('Style %s is not registered --> dequeue error -- is_enqueued : %d', $handle, wp_style_is( $handle, 'enqueued' )) ); }
+                    else{ 
+                        if( $this->debug ){ FlaTep_Debug::print_debug( 4, sprintf('Style %s is not registered --> dequeue error -- is_enqueued : %d', $handle, wp_style_is( $handle, 'enqueued' )) ); } 
+                    }
 				}
             }
         }
@@ -248,18 +287,109 @@ class FlaTep_Setup{
 	private function replace_sources_list($list){
         $tst = false;
         if(is_array($list)){
-            FlaTep_Debug::print_debug( 4, 'Replace sources from list list_items -> '.count($list) );
+            if( $this->debug ){ FlaTep_Debug::print_debug( 4, sprintf('Replace sources from list list_items -> %d',count($list)) ); }
             $type = ''; $tst_i = true; $tst = true;
             foreach ($list as $value) {
                 $type = $this->get_source_key($value, 'type'); 
                 if( !empty($type) ){
                     $tst_i = $this->flatep_update_enqueues($this->get_source_key($value, 'handle'), $value, true);
-                    FlaTep_Debug::print_debug( 3, sprintf('Replace enqueued %s -- %s -- test : %d', $type, $value, $tst_i) );
+                    if( $this->debug ){ FlaTep_Debug::print_debug( 4, sprintf('Replace enqueued %s -- %s -- test : %d', $type, $value, $tst_i) ); }
                     $tst = (!$tst_i) ? false : $tst;
                 }
             }
         }
+        else{
+            if( $this->debug ){ FlaTep_Debug::print_debug( 1, 'Error - Replace Source List - Bad parameter type' ); }
+        }
         return $tst;		
+    }
+
+    /**
+	 * Replace to cdn providers list of handles
+	 *
+	 * @since   1.0.0
+	 */
+	private function woocomerce_conditional(){
+        $tst = -1;
+        if( is_woocommerce_activated() ){
+            $list = array();
+            if( get_theme_mod( 'flatep_src_woo_disable_card', false ) ){
+                $list = array(
+                    'wc-cart-fragments' => 'script',
+                    'wc-add-to-cart' => 'script',
+                );
+            }
+
+            $act = get_theme_mod( 'flatep_src_woo_enqueue', 'default' );
+            $is_shop_page = false;
+            if($act === 'shop_pages'){
+                $is_shop_page = (! is_cart() && ! is_checkout() );
+            }
+            $is_base = $this->is_conditional_loader_base($act, get_theme_mod( 'flatep_src_woo_pages', '' ));
+            if( $is_shop_page || $is_base ){
+                $list['woocommerce-layout'] = 'style';
+                $list['woocommerce-general']    = 'style';
+                $list['woocommerce-smallscreen'] = 'style';
+                $list['wc-cart-fragments'] = 'script';
+                $list['woocommerce'] = 'script';
+                $list['flatsome-theme-woocommerce-js'] = 'script';
+                $list['wc-add-to-cart'] = 'script';
+            }
+            $nb = $this->dequeue_style_list($list);
+            if( $this->debug ){ FlaTep_Debug::print_debug( 3, sprintf('Woocommerce conditional load : nb dequeued -> %d / %d -- is_shop : %d -- is_base : %d', $nb, count($list), $is_shop_page, $is_base)); }
+        }	
+        return $tst;
+    }
+
+    
+
+    /**
+	 * Conditional load of jetpack scripts and styles.
+     *
+	 * @since   1.0.0
+     *  
+     * @return mixed	 True if all list is dequeued (dequeue only if already enqueued script)
+     *                   False if part 
+	 */
+	private function jetpack_conditional(){
+        $tst = -1;
+        if( class_exists( 'Jetpack' )){
+            $tst = false;
+            $act = get_theme_mod( 'flatep_src_jetpack_enqueue', 'default' );
+            $is_base = $this->is_conditional_loader_base($act, get_theme_mod( 'flatep_src_jetpack_pages', '' ));
+            if( $is_base ){
+                add_filter( 'jetpack_sharing_counts', '__return_false', 99 );
+                add_filter( 'jetpack_implode_frontend_css', '__return_false', 99 );
+                $tst = true;
+            }
+            
+            if( $this->debug ){ FlaTep_Debug::print_debug( 3, sprintf('Jetpack conditional load : is_base : %d', $is_base)); }
+        }
+        	
+        return $tst;
+    }
+
+    /**
+	 * Test if is comon conditional loader parameter and if valid condition.
+     *
+	 * @since   1.0.0
+     * 
+     * @param string $act    		Loader action provided by flatep_src_woo_enqueue theme_mod.
+     * @param string $pages    		Pages list separated by comma, -1 for home page.
+     * 
+     * @return bool	 True :
+     *                  - If loader action is 'selected_pages' and current page is not in list $pages
+     *                  - If loader action is 'never'
+	 */
+	private function is_conditional_loader_base($act, $pages=false){
+        if( $act === 'selected_pages' && !is_flatep_page_from_list($pages, false)){
+            return true;
+        }
+        else if( $act === 'never' ){
+            return true;
+        }
+        	
+        return false;
     }
 
     /**
@@ -271,13 +401,16 @@ class FlaTep_Setup{
 		// 
         $this->sources   = array();
         $this->versions  = array();
-        
-        FlaTep_Debug::print_debug( 4, 'Start FlaTep Header Structure Class');
-        FlaTep_Debug::start_timer( 4, 'FlaTep_Setup' );
-        
+        $this->debug  = FlaTep_Debug::is_debug();
+        $this->source_handles  = array();
+        if( $this->debug ){ 
+            FlaTep_Debug::print_debug( 4, 'Start FlaTep Header Structure Class');
+            FlaTep_Debug::start_timer( 3, 'FlaTep_Setup' );
+        }
         $this->run();
-        
-        FlaTep_Debug::stop_timer( 4, 'FlaTep_Setup' );
+        if( $this->debug ){
+            FlaTep_Debug::stop_timer( 3, 'FlaTep_Setup' );
+        }
     }
     
     /**
@@ -291,10 +424,15 @@ class FlaTep_Setup{
             if(function_exists('flatep_sources_data')){
                 $this->sources = flatep_sources_data();
                 $nb = (is_array($this->sources)) ? count($this->sources) : 0;
-                FlaTep_Debug::print_debug( 5, 'Data Sources initialized -> ' . $nb);
+                if( $this->debug ){ FlaTep_Debug::print_debug( 5, sprintf('Data Sources initialized -> %d', $nb)); }
+            }
+            else{
+                if( $this->debug ){ FlaTep_Debug::print_debug( 1, sprintf('Unable to initialyse source data - function flatep_sources_data unavalable')); }
             }
         }
-        
+        else{
+            if( $this->debug ){ FlaTep_Debug::print_debug( 1, sprintf('Unable to initialyse source data - file function-import-sources.php  unavalable')); }
+        }
         
     }
     
@@ -314,8 +452,8 @@ class FlaTep_Setup{
         
         //-> update viewport meta
         if(get_theme_mod( 'flatep_seo_viewport', false )){
-            remove_action('wp_head', 'flatsome_viewport_meta', 1);
-            add_action( 'wp_head', 'flatep_viewport_meta', 1 );
+            remove_action('wp_head', array($this, 'flatsome_viewport_meta'), 1);
+            add_action( 'wp_head', array($this, 'flatep_viewport_meta'), 1 );
         }
         //-> Select jQuery Migrate Version
         add_action( 'wp_enqueue_scripts', array($this, 'select_jquery_mig_version'),10); 
@@ -326,11 +464,36 @@ class FlaTep_Setup{
         add_action( 'wp_enqueue_scripts', array($this, 'flatep_scripts'), 100 );
         //-> Select Replace enqued scripts
         add_action( 'wp_enqueue_scripts', array($this, 'flatep_replace_enqueued'),10);
+        //-> Conditional load
+        add_action( 'wp_enqueue_scripts', array($this, 'flatep_conditional_enqueues'), 105);
+        /*if($this->debug){
+            add_action( 'after_theme_setup', array($this, 'flatep_print_debug'), 100);
+        }*/
         
-         
                
     }
     
+
+    public function flatep_print_debug() {
+        if(is_array($this->source_handles)){
+            $handles = implode(",", $this->source_handles);
+            if(!empty($handles)){
+                FlaTep_Debug::print_debug( 3, sprintf('Handles Enqueued -> %s', $handles));
+            }
+        }
+        FlaTep_Debug::print_debug( 3, sprintf('No handles defined is_array() -> %s', is_array($this->source_handles)));
+    }
+
+    /**
+     * Update Header Viewport Meta maximum-scale to 5. 
+     * 
+     * Google Audits - Accesissibility module 
+     *
+     * @return void
+     */
+    function flatep_viewport_meta() {
+        echo apply_filters( 'flatsome_viewport_meta', '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped       
+    }
 
     /**
 	 * Remove meta generator version
@@ -362,6 +525,7 @@ class FlaTep_Setup{
 			}
         }
 
+        
         //-> add cdn integrity attributes to enqueued scripts and styles
         $vrs = $this->get_version_handle($handle);
         if (is_array($vrs)){
@@ -381,23 +545,31 @@ class FlaTep_Setup{
                 }
             }
         }
-        $debug = (FlaTep_Debug::is_debug()) ? ' <!--Handle : '.sanitize_key($handle).'-->' : '';
+        $debug = (FlaTep_Debug::is_debug_level(3)) ? ' <!--Handle : '.sanitize_key($handle).'-->' : '';
 		return ($html . $debug);
     }
     
     /**
-     * Update Header Viewport Meta maximum-scale to 5. 
+	 * Flatep Conditional loader. 
+     * Dequeue all, plugin and themes, scripts and styles, defined.
+     * Run on :
+     *          - Woocommerce
+     *          - Jetpack
      * 
-     * Google Audits - Accesissibility module 
-     *
-     * @return void
-     */
-    function flatep_viewport_meta() {
-        echo apply_filters( 'flatsome_viewport_meta', '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped       
+	 *
+	 * @since   1.0.0
+	 */
+	public function flatep_conditional_enqueues(){
+        $tst = true;
+        //->woocommerce conditional load of script and styles
+        $tst = ($this->woocomerce_conditional() === false) ? false : $tst;
+        //-> disable woocommerce add to card  
+        $tst = ($this->jetpack_conditional() === false) ? false : $tst;
+
+		if( $this->debug ){ FlaTep_Debug::print_debug( 3, sprintf('Conditional enqueues -> %d',$tst) ); }
+		return $tst;
     }
 
-    
-    
     /**
 	 * Replace enqueued script and styles source
 	 *
@@ -408,7 +580,7 @@ class FlaTep_Setup{
 		$tst = true;
 		// Check if WooCommerce plugin is active
 		$tst = $this->replace_sources_list($list);
-		FlaTep_Debug::print_debug( 3, 'Replace enqueued scripts -> '.(($tst ===true) ? 'True' : 'False') );
+		if( $this->debug ){ FlaTep_Debug::print_debug( 4, sprintf('Replace enqueued scripts -> %d',$tst) ); }
 		return $tst;
     }
     /**
@@ -418,7 +590,7 @@ class FlaTep_Setup{
 	 */
 	public function select_jquery_version(){
         $tst = false;
-        $v = trim(sanitize_key(get_theme_mod( 'flatep_jquery_version', 'default' )));
+        $v = trim(sanitize_key(get_theme_mod( 'flatep_src_jquery_version', 'default' )));
         switch ($v) {
             case 'jquery_cdn_1_12_4':
                 $tst = $this->flatep_update_enqueues('jquery', 'jquery-cdn-1-12-4', true);
@@ -437,7 +609,7 @@ class FlaTep_Setup{
 				break;
         }
         
-        FlaTep_Debug::print_debug( 4, 'Select jQuery Version -> '.(($tst ===true) ? 'True' : 'False') );
+        if( $this->debug ){ FlaTep_Debug::print_debug( 4, sprintf('Select jQuery Version -> %d',$tst) ); }
 		return $tst;
     }
     /**
@@ -447,7 +619,7 @@ class FlaTep_Setup{
 	 */
 	public function select_jquery_mig_version(){
         $tst = false;
-        $v = trim(sanitize_key(get_theme_mod( 'flatep_jquery_mig_version', 'default' )));
+        $v = trim(sanitize_key(get_theme_mod( 'flatep_src_jquery_mig_version', 'default' )));
         switch ($v) {
             case 'jquery_mig_cdn_1_4_1':
                 $tst = $this->flatep_update_enqueues('jquery-migrate', 'jquery-mig-cdn-1-4-1', true);
@@ -462,7 +634,7 @@ class FlaTep_Setup{
 				break;
         }
 
-		FlaTep_Debug::print_debug( 4, 'Select jQuery Migrate Version -> '.(($tst ===true) ? 'True' : 'False') );
+		if( $this->debug ){ FlaTep_Debug::print_debug( 4, sprintf('Select jQuery Migrate Version -> %d', $tst) ); }
 		return $tst;
 	}
     

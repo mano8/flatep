@@ -40,7 +40,7 @@ function is_flatep_bar_active($bar) {
     else if($bar === 'bottom'){
         $tst = !is_flatep() || ( is_flatep() && ((get_theme_mod( 'bottom_bar_tep_sel_active_pages', false ) && is_flatep_page_from_list(get_theme_mod( 'bottom_bar_tep_actived_pages', '' )) ) || !get_theme_mod( 'bottom_bar_tep_sel_active_pages', false )))  ;
     }
-    FlaTep_Debug::print_debug( 3, sprintf('Start FlaTepDebug Class -- bar :  %s -- test : %d', $bar, $tst) );
+    FlaTep_Debug::print_debug( 3, sprintf('Is Header bar active -- bar :  %s -- test : %d', $bar, $tst) );
     return $tst;
 }
 

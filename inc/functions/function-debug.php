@@ -11,14 +11,14 @@ class FlaTep_Debug{
 
     /**
      * @static
-     * @access protected
+     * @access private
      * @var bool
      */
     private static $active;
 
     /**
      * @static
-     * @access protected
+     * @access private
      * @var int
      */
     private static $level;
@@ -112,7 +112,7 @@ class FlaTep_Debug{
 	 * @since   1.0.0
 	 */
 	public static function stop_timer($level, $handle){
-        // Start the 'foo' timer:
+        // Stop the 'foo' timer:
         if(FlaTep_Debug::is_debug_level($level)){
             do_action( 'qm/stop', $handle );
         }		

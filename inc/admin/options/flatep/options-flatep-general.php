@@ -29,6 +29,21 @@ Flatsome_Option::add_field( 'option', array(
 	'default'  => false,
 ) );
 
+Flatsome_Option::add_field( 'option',  array(
+	'type'          => 'slider',
+	'settings'      => 'flatep_debug_level',
+	'label'         => __( 'Set debug level to show.', 'flatsome-admin' ),
+	'description'   => __( 'Set 5 to show all, and 1 to view only warnings', 'flatsome-admin' ),
+	'section'       => 'flatep-options-general',
+	'default'       => 3,
+	'choices'       => array(
+		'min'  => 1,
+		'max'  => 5,
+		'step' => 1
+	),
+	'transport' => 'postMessage',
+
+));
 
 Flatsome_Option::add_field( '', array(
 	'type'     => 'custom',
@@ -50,7 +65,7 @@ Flatsome_Option::add_field( 'option', array(
 	'type'     => 'checkbox',
 	'settings' => 'tep_disable_head_version',
 	'label'    => __( 'Remove All js and css import versions.', 'flatsome-admin' ),
-	'description' => __( 'Active when finish web creation. Enable Navigator caching.', 'flatsome-admin' ),
+	'description' => __( "Active when finish web creation. That's Enable Navigator caching.", 'flatsome-admin' ),
 	'section'  => 'flatep-options-general',
 	'default'  => false,
 ) );
