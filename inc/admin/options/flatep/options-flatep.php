@@ -24,6 +24,12 @@ Flatsome_Option::add_section( 'flatep-options-seo', array(
 	'panel'       => 'flatep-options-panel',
 ) );
 
+Flatsome_Option::add_section( 'flatep-options-wc', array(
+	'title'       => __( 'WooCommerce Options', 'flatsome-admin' ),
+	'panel'       => 'flatep-options-panel',
+) );
+
 include_once(dirname( __FILE__ ).'/options-flatep-general.php');
 include_once(dirname( __FILE__ ).'/options-flatep-sources.php');
 include_once(dirname( __FILE__ ).'/options-flatep-seo.php');
+include_once(dirname( __FILE__ ).'/options-flatep-wc.php');
