@@ -24,7 +24,7 @@ global $product;
 
 */
 ?>
-<?php if(!is_tepoz() || get_theme_mod( 'show_attributes_tabs_title', true )): ?>
+<?php if(!is_flatep() || get_theme_mod( 'show_attributes_tabs_title', true )): ?>
 	<?php 
 		$heading = apply_filters( 'woocommerce_product_additional_information_heading', __( 'Additional information', 'woocommerce' ) );
 		if ( $heading ) : ?>

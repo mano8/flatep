@@ -33,6 +33,11 @@ $classes[] = 'col';
 $classes[] = 'has-hover';
 
 if ( $out_of_stock ) $classes[] = 'out-of-stock';
+$cat = ''; $link_attr = '';
+if (class_exists("FlaTep_Woocommerce")){
+	$cat = FlaTep_Woocommerce::get_related_product_cat($product);
+	$link_attr = FlaTep_Woocommerce::get_the_product_link_title_seo($product->get_name(), $cat);
+}
 
 
 ?>
@@ -43,7 +48,7 @@ if ( $out_of_stock ) $classes[] = 'out-of-stock';
 	<div class="product-small box <?php echo flatsome_product_box_class(); ?>">
 		<div class="box-image">
 			<div class="<?php echo flatsome_product_box_image_class(); ?>"> 
-				<a href="<?php echo get_the_permalink(); ?>" <?php if(class_exists("FlaTep_Woocommerce")) {echo FlaTep_Woocommerce::get_the_product_link_title_seo($product);} ?>>
+				<a href="<?php echo get_the_permalink(); ?>" <?php echo $link_attr;  ?>>
 					<?php
 						/**
 						 *

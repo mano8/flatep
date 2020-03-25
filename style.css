@@ -5,3 +5,29 @@ Author: Eli Serra
 Template: flatsome
 Version: 3.0
 */
+
+/* Inicio - Lienzo Blanco */
+.mn-lienzo{
+    display:block;
+    width: 100%;
+    min-width: 710px;
+}
+    .mn-lienzo-top, .mn-lienzo-center, .mn-lienzo-bottom{
+        width: 700px;
+        color: #4d4286;
+        text-transform: none !important;
+        font-size:1.5em;
+        overflow-wrap: normal;
+        margin: auto;
+        
+    }
+        .mn-lienzo-top{
+            text-align: left;
+        }
+        .mn-lienzo-center{
+            text-align: center;
+        }
+
+        .mn-lienzo-bottom{
+            text-align: right;
+        }

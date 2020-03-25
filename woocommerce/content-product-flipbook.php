@@ -16,11 +16,16 @@ add_action( 'woocommerce_single_product_flipbook_summary', 'woocommerce_template
 add_action( 'woocommerce_single_product_flipbook_summary', 'woocommerce_template_single_excerpt', 20 );
 add_action( 'woocommerce_single_product_flipbook_summary', 'woocommerce_template_single_meta', 40 );
 
+$cat = ''; $link_attr = '';
+if (class_exists("FlaTep_Woocommerce")){
+	$cat = FlaTep_Woocommerce::get_related_product_cat($product);
+	$link_attr = FlaTep_Woocommerce::get_the_product_link_title_seo($product->get_name(), $cat);
+}
 ?>
   <div class="row row-collapse align-middle flip-slide" style="width:100%">
         <div class="large-6 col flip-page-one">
         <div class="featured-product col-inner">
-          <a href="<?php the_permalink(); ?>" <?php if(is_object($flatepWoo)) {echo $flatepWoo->get_the_product_link_title_seo($product);} ?>>
+          <a href="<?php the_permalink(); ?>" <?php echo $link_attr; ?>>
                 <div class="product-image relative">
                    <div class="front-image">
                     <?php echo get_the_post_thumbnail( $post->ID,  apply_filters( 'woocommerce_gallery_image_size', 'woocommerce_single' )) ?>

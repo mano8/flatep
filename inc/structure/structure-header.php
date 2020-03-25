@@ -8,6 +8,42 @@
  */
 
 
+ /**
+ * Adds custom classes to the array of body classes.
+ *
+ * @param array $classes Current classes.
+ *
+ * @return array $classes
+ */
+function flatep_body_classes( $classes ) {
+
+	// Change Body Layouts.
+	if (get_theme_mod( 'body_layout' ))  $classes[]                   = get_theme_mod( 'body_layout' );
+	if (get_theme_mod( 'box_shadow_header' )) $classes[]              = 'header-shadow';
+	if (get_theme_mod( 'body_bg_type' ) == 'bg-full-size') $classes[] = 'bg-fill';
+	if (get_theme_mod( 'box_shadow' )) $classes[]                     = 'box-shadow';
+	if (get_theme_mod( 'flatsome_lightbox', 1 )) $classes[]           = 'lightbox';
+	if (get_theme_mod( 'dropdown_arrow', 1 )) $classes[]              = 'nav-dropdown-has-arrow';
+	if (get_theme_mod( 'parallax_mobile', 0 )) $classes[]             = 'parallax-mobile';
+
+  // Add the selected page template classes if Default Template is selected.
+	$page_template =  get_post_meta( get_the_ID(), '_wp_page_template', true );
+	$default_template = get_theme_mod('pages_template');
+	if ( ( empty( $page_template ) || $page_template == "default" ) && $default_template ) {
+		$classes[] = 'page-template-' . $default_template;
+		$classes[] = 'page-template-' . $default_template . '-php';
+	}
+	//-> child part
+	if(is_flatep()){ $classes[] = 'is_flatep'; }
+	if (get_theme_mod( 'general_tep_fnd_style', 'default' ) 	 === 'fnd_1')  $classes[]      = 'tep-fnd-1';
+	else if (get_theme_mod( 'general_tep_fnd_style', 'default' ) === 'fnd_2')  $classes[]      = 'tep-fnd-2';
+	else if (get_theme_mod( 'general_tep_fnd_style', 'default' ) === 'fnd_3')  $classes[]      = 'tep-fnd-3';
+	else if (get_theme_mod( 'general_tep_fnd_style', 'default' ) === 'fnd_4')  $classes[]      = 'tep-fnd-4';
+	
+	return $classes;
+}
+add_filter( 'body_class', 'flatep_body_classes' );
+
 /**
  * Header Navigation.
  *

@@ -68,7 +68,7 @@ $classes = array( 'product-category', 'col' );
 							?>
 						</p>
                     <?php endif; 
-                    $productCatMetaYears = get_term_meta($category->term_id, 'tepoz_meta_years', true);
+                    $productCatMetaYears = get_term_meta($category->term_id, 'flatep_meta_years', true);
                     if(!empty($productCatMetaYears)):
                     ?>
                     <p class="tep-meta-years uppercase count">

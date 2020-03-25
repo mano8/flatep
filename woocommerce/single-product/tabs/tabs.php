@@ -48,7 +48,7 @@ $count_panel = 0;
 if ( ! empty( $tabs ) ) : ?>
 
 <div class="woocommerce-tabs wc-tabs-wrapper container tabbed-content">
-	<?php if(!is_tepoz() || get_theme_mod( 'show_attributes_tabs_title', true )): ?>
+	<?php if(!is_flatep() || get_theme_mod( 'show_attributes_tabs_title', true )): ?>
 		<ul class="tabs wc-tabs product-tabs small-nav-collapse <?php flatsome_product_tabs_classes(); ?>" role="tablist">
 			<?php foreach ( $tabs as $key => $tab ) : ?>
 				<li class="<?php echo esc_attr( $key ); ?>_tab <?php if ( $count_tabs == 0 ) echo 'active'; ?>" id="tab-title-<?php echo esc_attr( $key ); ?>" role="tab" aria-controls="tab-<?php echo esc_attr( $key ); ?>">

@@ -14,11 +14,14 @@
 require get_stylesheet_directory() . '/inc/classes/class-flatep-debug.php';
 require get_stylesheet_directory() . '/inc/functions/function-conditionals.php';
 /**
- * UX Builder
+ * Woocommerce functions and classes
  */
-if(is_flatep() && is_woocommerce_activated()){
+if(is_woocommerce_activated()){
     require get_stylesheet_directory() . '/inc/classes/class-flatep-wc.php';
+    require get_stylesheet_directory() . '/inc/woocommerce/structure-wc-product-box.php';
 }
+
+    
 /**
  * Theme Admin
  * child theme
@@ -64,6 +67,7 @@ function flatep_after_setup_theme(){
      */
     if(is_flatep()){
         require get_stylesheet_directory() . '/inc/builder/builder.php';
+        
     }
     
 }
