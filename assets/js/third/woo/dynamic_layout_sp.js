@@ -8,7 +8,7 @@ if(x){
 }*/
 
 jQuery( function( $ ) {
-    var LevelLog=3, is_e= '.is_flatep', o_opts, o_view, o_size;
+    var LevelLog=0, is_e= '.is_flatep', o_opts, o_view, o_size;
     // o_opts['gallery_sels']['_view_thumb_pri'] tep-sp-view-title
     o_opts={
         gallery_sels:{
@@ -52,7 +52,7 @@ jQuery( function( $ ) {
                 this.scan_row_cols_css();
             }
             else{
-                msg(2, "Error : Unable to get size of null object "+$(obj))
+                msg(2, "Error : Unable to get size of null object "+$(obj), 'init_obj_size')
             }
             return this;
         },
@@ -122,10 +122,10 @@ jQuery( function( $ ) {
                                 if(t.indexOf('large-') >= 0){this.row_cols['large'] = this.split_str(t, '-', 1)}
                             }                            
                         }
-                        msg(4, 'Rows detection result : '+print_object(this.row_cols));
+                        msg(4, 'Rows detection result : '+print_object(this.row_cols), 'scan_row_cols_css');
                     }
                     else{
-                        msg(2, 'Error unable to detect row cols : ');
+                        msg(2, 'Error unable to detect row cols : ', 'scan_row_cols_css');
                     }
                 }
             }
@@ -139,11 +139,11 @@ jQuery( function( $ ) {
                     this.width = w , this.height = h;
                     $(this.sel).width(this.width); $(this.sel).parent().width(this.width);
                     $(this.sel).height(this.height); $(this.sel).parent().height(this.height);
-                    msg(3, 'Image height is recalculated -> h : '+this.height+' max height : '+max_height);
+                    msg(3, 'Image height is recalculated -> h : '+this.height+' max height : '+max_height, 'get_img_width');
                 }
             }
             else{
-                msg(3, 'Image height is valid -> h : '+this.height+' max height : '+max_height);
+                msg(3, 'Image height is ok  -> h : '+this.height+' max height : '+max_height, 'get_img_width');
             }
         },
         get_img_proportion: function (width = 0, height = 0){
@@ -235,10 +235,10 @@ jQuery( function( $ ) {
             if(is_object(this.gallery) && is_object(this.info)){
                 res['gal'] = this.gallery.get_row_cols(this.win_type);
                 res['inf'] = this.info.get_row_cols(this.win_type);
-                msg(4, 'Rows : '+print_object(res));
+                msg(4, 'Rows : '+print_object(res), 'get_rows');
             }
             else{
-                msg(4, 'Unable to get rows '+print_object(res));
+                msg(3, 'Unable to get rows '+print_object(res), 'get_rows');
             }
         },
         update_header: function (){
@@ -280,28 +280,28 @@ jQuery( function( $ ) {
                 r = this.get_rows();
                 switch (this.view_type) {
                     case 'horizontal':
-                        msg(4, 'Horizontal view detected'+print_object(this.gallery.row_cols));
+                        msg(4, 'Horizontal view detected'+print_object(this.gallery.row_cols), 'update_view');
                         g = {'large': 8, 'medium': 8, 'small':12};
                         i = {'large': 4, 'medium': 4, 'small':12};
                         i_tit = {'large': 12, 'medium': 12, 'small':12};
                         i_cont = {'large': 12, 'medium': 12, 'small':12};
                         break;
                     case 'vertical':
-                        msg(4, 'Vertical view detected'+print_object(this.gallery.row_cols));
+                        msg(4, 'Vertical view detected'+print_object(this.gallery.row_cols), 'update_view');
                         g = {'large': 7, 'medium': 7, 'small':12};
                         i = {'large': 5, 'medium': 5, 'small':12};
                         i_tit = {'large': 12, 'medium': 12, 'small':12};
                         i_cont = {'large': 12, 'medium': 12, 'small':12};
                         break;
                     case 'wide':
-                        msg(4, 'Wide view detected'+print_object(this.gallery.row_cols));
+                        msg(4, 'Wide view detected'+print_object(this.gallery.row_cols), 'update_view');
                         g = {'large': 12, 'medium': 12, 'small':12};
                         i = {'large': 12, 'medium': 12, 'small':12};
                         i_tit = {'large': 4, 'medium': 4, 'small':12};
                         i_cont = {'large': 8, 'medium': 8, 'small':12};
                         break;
                     default:
-                        msg(4, 'Unable to detect view type' );
+                        msg(2, 'Unable to detect view type', 'update_view' );
                         break;
                 }
 
@@ -313,16 +313,20 @@ jQuery( function( $ ) {
                     //-> get flickity data from jquery element
                     ft = this.get_flickity_data(o_opts['gallery_sels']['_view_thumb_active']);
                     fa = this.get_flickity_data(o_opts['gallery_sels']['_view_img_active']);
-                    if(is_object(fa) && is_object(ft)){
-                        fa.resize(); fa.reposition();
-                        ft.resize(); ft.reposition();
-                    }
+                    if(is_object(fa)){fa.resize(); fa.reposition();}
+                    else{ msg(2, 'Unable to resize flickity  : is img : '+is_object(fa), 'update_view');}
                     
+                    if(is_object(ft)){ft.resize(); ft.reposition();}
+                    else{ msg(3, 'Unable to resize flickity  : is thumb : '+is_object(ft), 'update_view');}
+                    
+                }
+                else{
+                    msg(2, 'Unable to update view - bad view type : '+this.view_type, 'update_view');
                 }
                 
             }
             else{
-                msg(4, 'Unable to update view : ready - '+this.is_ready()+' --- win type - '+this.is_win_type() );
+                msg(4, 'Unable to update view : ready - '+this.is_ready()+' --- win type - '+this.is_win_type(), 'update_view' );
             }
         },
         get_max_img_height: function (){
@@ -390,9 +394,9 @@ jQuery( function( $ ) {
             fa = this.get_flickity_data(o_opts['gallery_sels']['_view_img_active']);
             //-> if is objects
             if(is_object(fa) && is_object(ft)){
-               msg(4, 'Thumbs carousel at ' + ft.selectedIndex + ' --- active carousel at ' + fa.selectedIndex) 
+               msg(4, 'Thumbs carousel at ' + ft.selectedIndex + ' --- active carousel at ' + fa.selectedIndex, 'evt_pan_gallery') 
                     ft.on('change', function( index ) {
-                            msg(6, 'Thumbs Slide changed to ' + index );
+                            msg(6, 'Thumbs Slide changed to ' + index, 'evt_pan_gallery' );
                             if( index >= 0 && ft.selectedIndex != fa.selectedIndex) { 
                                 fa.select(index);
                             }
@@ -401,7 +405,7 @@ jQuery( function( $ ) {
                             ft.resize(); ft.reposition();
                         });
                     fa.on('change', function( index ) {
-                            msg(6, 'Pri Slide changed to ' + index );
+                            msg(6, 'Pri Slide changed to ' + index, 'evt_pan_gallery' );
                             if( index >= 0 && ft.selectedIndex != fa.selectedIndex) { 
                                 ft.select(index);
                             }
@@ -410,7 +414,7 @@ jQuery( function( $ ) {
                             ft.resize(); ft.reposition();
                         });
             }
-            else { msg(2, 'Error : Unable to locate active or pri carousel... act : ' + fa + ' -- pri : ' + fp) }
+            else { msg(2, 'Error : Unable to locate active or pri carousel... act : ' + fa + ' -- pri : ' + fp, 'evt_pan_gallery') }
         }
     }
 

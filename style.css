@@ -31,3 +31,11 @@ Version: 3.0
         .mn-lienzo-bottom{
             text-align: right;
         }
+
+    @media only screen and (max-width:48em){}
+    @media only screen and (max-width:992px){}
+    @media only screen and (max-width:768px){.mn-lienzo{min-width:100%;}
+    .mn-lienzo-top, .mn-lienzo-center, .mn-lienzo-bottom{width:100%;font-size:1.2em;}
+    }
+    @media only screen and (max-width:480px){}
+    @media only screen and (max-width:320px){}
