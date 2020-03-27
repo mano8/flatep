@@ -30,7 +30,7 @@ class FlaTep_Debug{
 	 * @since   1.0.0
 	 */
 	private static function set_debug($active){
-        FlaTep_Debug::$active = ($active === true) ? true : false;	
+        self::$active = ($active === true) ? true : false;	
     }
 
     /**
@@ -39,7 +39,7 @@ class FlaTep_Debug{
 	 * @since   1.0.0
 	 */
 	private static function set_level($level){
-        FlaTep_Debug::$level = ($level > 0 && $level <= 5) ? $level : 3;	
+        self::$level = ($level > 0 && $level <= 5) ? $level : 3;	
     }
 
     /**
@@ -49,10 +49,10 @@ class FlaTep_Debug{
 	 */
     function __construct(){
 		// Start the 'foo' timer:
-        FlaTep_Debug::set_debug(get_theme_mod( 'flatep_debug', false ));
-        FlaTep_Debug::set_level(get_theme_mod( 'flatep_debug_level', 3 ));
+        self::set_debug(get_theme_mod( 'flatep_debug', false ));
+        self::set_level(get_theme_mod( 'flatep_debug_level', 3 ));
         
-        FlaTep_Debug::print_debug( 3, sprintf('Start FlaTepDebug Class -- active :  %d -- level : %d', FlaTep_Debug::is_debug(), FlaTep_Debug::get_level()) );
+        self::print_debug( 3, sprintf('Start FlaTepDebug Class -- active :  %d -- level : %d', self::is_debug(), self::get_level()) );
     }
 
     /**
@@ -61,7 +61,7 @@ class FlaTep_Debug{
 	 * @since   1.0.0
 	 */
 	public static function is_debug(){
-        return FlaTep_Debug::$active;	
+        return self::$active;	
     }
 
     /**
@@ -70,7 +70,7 @@ class FlaTep_Debug{
 	 * @since   1.0.0
 	 */
 	public static function get_level(){
-        return FlaTep_Debug::$level;	
+        return self::$level;	
     }
 
     /**
@@ -79,7 +79,7 @@ class FlaTep_Debug{
 	 * @since   1.0.0
 	 */
 	public static function is_debug_level($level){
-        return (current_user_can( 'manage_options') && FlaTep_Debug::is_debug() && FlaTep_Debug::get_level() > 0 && $level <= FlaTep_Debug::get_level());
+        return (current_user_can( 'manage_options') && self::is_debug() && self::get_level() > 0 && $level <= self::get_level());
     }
 
     /**
@@ -89,7 +89,7 @@ class FlaTep_Debug{
 	 */
 	public static function print_debug($level, $msg){
         // Start the 'foo' timer:
-        if(FlaTep_Debug::is_debug_level($level)){
+        if(self::is_debug_level($level)){
             do_action( 'qm/debug', $msg );
         }		
     }
@@ -101,7 +101,7 @@ class FlaTep_Debug{
 	 */
 	public static function start_timer($level, $handle){
         // Start the 'foo' timer:
-        if(FlaTep_Debug::is_debug_level($level)){
+        if(self::is_debug_level($level)){
             do_action( 'qm/start', $handle );
         }		
     }
@@ -113,7 +113,7 @@ class FlaTep_Debug{
 	 */
 	public static function stop_timer($level, $handle){
         // Stop the 'foo' timer:
-        if(FlaTep_Debug::is_debug_level($level)){
+        if(self::is_debug_level($level)){
             do_action( 'qm/stop', $handle );
         }		
     }   

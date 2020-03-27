@@ -32,6 +32,25 @@ Version: 3.0
             text-align: right;
         }
 
+/* Flatep Custom Styles */
+h2.flatep-red-tai, h1.flatep-red-tai, h3.flatep-red-tai, 
+h4.flatep-red-tai, h5.flatep-red-tai, h6.flatep-red-tai{
+    border-top: rgba(119,11,0,0.74) 2px solid;
+    border-bottom: rgba(119,11,0,0.74) 2px solid;
+    padding: 5px 0px;
+}
+
+/* Events Manager */
+.is_flatep .evt-body{padding-top:0px;}
+    .is_flatep .evt-list-grouped{}
+    .is_flatep .col.evt-list-grouped-item{padding-bottom:10px;}
+    .is_flatep .badge.post-date{top:0px;top:0px;margin-left:0px;}
+    .is_flatep .badge-inner.badge-evt-past, .badge-inner.badge-evt-current, .badge-inner.badge-evt-future{padding:2px 7px;background-color:transparent;font-size:2.3em;}
+        .is_flatep .badge-evt-current, .badge-evt-future{padding-top:3px;}
+        .is_flatep .badge-inner .badge-evt-past{color:rgba(200, 50, 50, 0.836);}
+        .is_flatep .badge-inner.badge-evt-current{color:rgba(240, 101, 50, 0.836);}
+        .is_flatep .badge-inner.badge-evt-future{color:rgba(87, 167, 33, 0.9);}
+
     @media only screen and (max-width:48em){}
     @media only screen and (max-width:992px){}
     @media only screen and (max-width:768px){.mn-lienzo{min-width:100%;}
