@@ -28,7 +28,7 @@ if(!function_exists('flatep_location_single')){
                     <div class="col large-12 medium-12 small-12 row-xsmall row-masonry">#_LOCATIONMAP</div>
                     <div class="col large-12 medium-12 small-12 row-xsmall row-masonry">
                         <h2 class="uppercase" style="text-align: left;">Cours A Venir :</h2>
-                        [ux_events_list_grouped style="normal" type="masonry" columns="3" og_scope="future" og_limit="6" og_location="#_LOCATIONID" image_size="medium" text_size="small" text_hover="invert" text_bg="rgb(33, 33, 33)" text_color="dark"]
+                        [ux_events_list_grouped style="normal" type="masonry" columns="3" col_spacing="xsmall" og_scope="future" og_limit="6" og_category="cours-qi-gong, cours-tai-chi-chuan, meditation, stages" og_location="#_LOCATIONID" image_size="medium" text_size="normal" text_hover="invert" text_bg="rgb(33, 33, 33)" text_color="dark"]
                     </div>
             </div>
         </section>

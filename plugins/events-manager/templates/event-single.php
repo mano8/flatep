@@ -22,7 +22,11 @@ if(!function_exists('flatep_event_single')){
             <div class="section-content relative">
                 <div class="row row-small">
                     <div class="evt-simple-header col large-12 small-12"><h2 class="uppercase">#_CATEGORYNAME</h2></div>
-                    <div class="col large-7 medium-7 small-12 row-xsmall row-masonry">#_LOCATIONIMAGE</div>
+                    <div class="col large-7 medium-7 small-12 row-xsmall row-masonry">
+                        <a href="#_LOCATIONURL" title="#_CATEGORYNAME - #_LOCATIONNAME - #_LOCATIONTOWN"  aria-label="#_CATEGORYNAME - #_LOCATIONNAME - #_LOCATIONTOWN">
+                            #_LOCATIONIMAGE
+                        </a>
+                    </div>
                     <div class="col large-5 medium-5 small-12 row-xsmall row-masonry">
                         <h4 class=" uppercase evt-dates is-small">#_EVENTDATES</h4>
                         <p class="evt-hours from_the_blog_excerpt "><i>#_EVENTTIMES</i></p>

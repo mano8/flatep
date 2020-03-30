@@ -21,6 +21,9 @@ if(is_woocommerce_activated()){
     require get_stylesheet_directory() . '/inc/woocommerce/structure-wc-product-box.php';
 }
 
+if(is_events_manager_activated()){
+    require get_stylesheet_directory() . '/inc/classes/class-flatep-em.php';
+}
     
 /**
  * Theme Admin
@@ -53,11 +56,15 @@ function flatep_after_setup_theme(){
      * Flatsome Shortcodes. 
      */
 
-    require get_stylesheet_directory() . '/inc/shortcodes/ux_events_list_grouped.php';
+    
     require get_stylesheet_directory() . '/inc/shortcodes/ux_banner.php';
     require get_stylesheet_directory() . '/inc/shortcodes/share_follow.php';
     if(is_woocommerce_activated()){
         require get_stylesheet_directory() . '/inc/shortcodes/product_categories.php';
+    }
+
+    if(is_events_manager_activated()){
+        require get_stylesheet_directory() . '/inc/shortcodes/ux_events_list_grouped.php';
     }
     
 

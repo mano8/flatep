@@ -35,10 +35,9 @@ function flatep_body_classes( $classes ) {
 	}
 	//-> child part
 	if(is_flatep()){ $classes[] = 'is_flatep'; }
-	if (get_theme_mod( 'general_tep_fnd_style', 'default' ) 	 === 'fnd_1')  $classes[]      = 'tep-fnd-1';
-	else if (get_theme_mod( 'general_tep_fnd_style', 'default' ) === 'fnd_2')  $classes[]      = 'tep-fnd-2';
-	else if (get_theme_mod( 'general_tep_fnd_style', 'default' ) === 'fnd_3')  $classes[]      = 'tep-fnd-3';
-	else if (get_theme_mod( 'general_tep_fnd_style', 'default' ) === 'fnd_4')  $classes[]      = 'tep-fnd-4';
+	$x_style = get_theme_mod( 'global_styles_tep_custom', 'default' );
+	if 		($x_style === 'red_tai')  	$classes[]      = 'flatep-red-tai';
+	else if ($x_style === 'clear_mn')  	$classes[]      = 'flatep-clear-mn';
 	
 	return $classes;
 }

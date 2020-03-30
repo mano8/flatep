@@ -34,24 +34,25 @@ function flatep_ux_events_list_grouped($atts, $content = null, $tag) {
 
   extract(shortcode_atts(array(
 		// Meta
-        'number'     => null,
-        '_id' => 'evt-list-grp-'.rand(),
-        'class' => '',
-        'visibility' => '',
-        'title' => '',
-        'og_category' => '',
-        'og_location' => '',
-        'og_owner'=> '',
-        'og_mode' => 'monthly',
-        'og_limit' => 0,
-        'og_offset' => '',
-        'og_pagination' => 0,
-        'og_scope' => 'next-week',
-        'og_groupby'    => 'location_id',
-        'og_orderby'    => 'category_id',
-        'og_order'      => 'ASC',
-        'og_groupby_orderby' => 'event_start_date, event_start_time',
-        'og_groupby_order' => 'DESC',
+      'number'     => null,
+      '_id' => 'evt-list-grp-'.rand(),
+      'class' => '',
+      'visibility' => '',
+      'title' => '',
+      'og_category' => '',
+      'og_location' => '',
+      'og_owner'=> '',
+      'og_mode' => 'yearly',
+      'og_status' => 1,
+      'og_limit' => 0,
+      'og_offset' => '',
+      'og_pagination' => 0,
+      'og_scope' => 'next-week',
+      'og_groupby'    => 'location_id',
+      'og_orderby'    => 'category_id',
+      'og_order'      => 'ASC',
+      'og_groupby_orderby' => 'event_start_date, event_start_time',
+      'og_groupby_order' => 'DESC',
 
 
 
@@ -147,6 +148,7 @@ function flatep_ux_events_list_grouped($atts, $content = null, $tag) {
   $css_args_img = array(
     array( 'attribute' => 'border-radius', 'value' => $image_radius, 'unit' => '%'),
     array( 'attribute' => 'width', 'value' => $image_width, 'unit' => '%' ),
+    //array( 'attribute' => 'background-color', 'value' => '#_CATEGORYCOLOR' ),
   );
 
   $css_image_height = array(
@@ -181,6 +183,12 @@ function flatep_ux_events_list_grouped($atts, $content = null, $tag) {
   } else {
     $og_category = '';
   }
+  //-> event status
+  /*
+  * Limit search to events with a spefic status (1 is active, 0 is pending approval) Default Value: 1
+  * 0 = Pending, 1 = Approved, 2 = Rejected, 3 = Cancelled, 4 = Awaiting Online Payment, 5 = Awaiting Payment
+  */
+  $og_status = ($og_status == 1 || $og_status == 0) ? $og_status : 1;
 
   $og_scope = set_flatep_scopes($og_scope);
   /*$columns = ($columns > 0) ? $columns : 1;
@@ -246,8 +254,9 @@ function flatep_ux_events_list_grouped($atts, $content = null, $tag) {
       
         <div class="<?php echo implode(' ', $classes_col); ?>" <?php echo $animate;?> title="<?php echo $og_scope; ?>">
           <div class="col-inner">
-            <a class="plain" href="#_EVENTURL">
-              <div class="<?php echo implode(' ', $classes_box);?>">
+            
+            <div class="<?php echo implode(' ', $classes_box);?>" style="background-color:#_CATEGORYCOLOR;">
+              <a class="plain" href="#_EVENTURL" title="#_CATEGORYNAME - #_EVENTDATES - #_EVENTTIMES" aria-label="#_CATEGORYNAME - #_EVENTDATES - #_EVENTTIMES">
                 <div class="box-image" <?php echo get_shortcode_inline_css($css_args_img); ?>>
                   <div class="<?php echo implode(' ', $classes_image); ?>" <?php echo get_shortcode_inline_css($css_image_height); ?>>
                     #_CATEGORYIMAGE{350,0}
@@ -255,13 +264,17 @@ function flatep_ux_events_list_grouped($atts, $content = null, $tag) {
                   <?php if($image_overlay){ ?><div class="overlay" style="background-color: <?php echo $image_overlay;?>"></div><?php } ?>
                   <?php if($style == 'shade'){ ?><div class="shade"></div><?php } ?>
                 </div><!-- box-image -->
-                <div class="box-text <?php echo implode(' ', $classes_text); ?>" <?php echo get_shortcode_inline_css($css_args); ?>>
-                  <div class="box-text-inner blog-post-inner">
+              </a>
+              <div class="box-text <?php echo implode(' ', $classes_text); ?>" <?php echo get_shortcode_inline_css($css_args); ?>>
+                <div class="box-text-inner blog-post-inner">
+                  <a class="plain" href="#_CATEGORYURL" title="#_CATEGORYNAME" aria-label="#_CATEGORYNAME">
                     <h4 class="evt-dates is-small uppercase">#_CATEGORYNAME</h4>
-                    <div class="is-divider"></div>
-                    <h5 class="evt-dates is-small uppercase">#_EVENTDATES</h5>
-                    <p class="evt-hours from_the_blog_excerpt ">#_EVENTTIMES</p>
-                    <div class="is-divider"></div>
+                  </a>
+                  <div class="is-divider"></div>
+                  <h5 class="evt-dates is-small uppercase">#_EVENTDATES</h5>
+                  <p class="evt-hours from_the_blog_excerpt ">#_EVENTTIMES</p>
+                  <div class="is-divider"></div>
+                  <a class="plain" href="#_LOCATIONURL" title="#_LOCATIONNAME" aria-label="#_LOCATIONNAME">
                     <h5 class="evt-locations is-small uppercase">#_LOCATIONNAME</h5>
                     <p class="evt-loc-address is-xsmall op-7 uppercase">
                       #_LOCATIONADDRESS,
@@ -269,10 +282,13 @@ function flatep_ux_events_list_grouped($atts, $content = null, $tag) {
                     <p class="evt-loc-address is-small op-7 uppercase">
                       #_LOCATIONPOSTCODE - #_LOCATIONTOWN
                     </p>
-                    <div class="is-divider"></div>
+                  </a>
+                  <div class="is-divider"></div>
+                  <a class="plain" href="#_CONTACTURL" title="#_CONTACTNAME" aria-label="#_CONTACTNAME">
                     <h5 class="evt-locations is-small uppercase">Cours animés par <br />#_CONTACTNAME</h5>
-                  </div>
+                  </a>
                 </div>
+              </div>
                 
                 <div class="badge absolute top post-date badge-circle-inside">
                   {is_past}<div class="badge-inner badge-evt-past <?php echo implode(' ', $evt_classes); ?>"><?php echo $evt_badge['past'] ?></div>{/is_past}
@@ -281,8 +297,7 @@ function flatep_ux_events_list_grouped($atts, $content = null, $tag) {
                 </div>
                 
                 
-              </div>
-            </a>
+            </div>
           </div>
         </div>
       
@@ -297,6 +312,7 @@ function flatep_ux_events_list_grouped($atts, $content = null, $tag) {
         'mode' => $og_mode,
         'category' => $og_category,
         'scope' => $og_scope,
+        'status' => $og_status,
         'location' => $og_location,
         'limit' => (int) $og_limit,
         /*'status' => 1, //Limit search to locations with a spefic status (1 is active, 0 is pending approval) Default Value: 1

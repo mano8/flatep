@@ -30,6 +30,17 @@ if ( ! function_exists( 'is_woocommerce_activated' ) ) {
 	}
 }
 
+if ( ! function_exists( 'is_events_manager_activated' ) ) {
+	/**
+	 * Returns true if WooCommerce plugin is activated
+	 *
+	 * @return bool
+	 */
+	function is_events_manager_activated() {
+		return class_exists( 'EM_Events' );
+	}
+}
+
 /**
  * Is FlaTep Debug Active
  *
