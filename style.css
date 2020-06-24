@@ -42,15 +42,35 @@ Version: 3.0
     padding-left: 90px;
 }
 /* Flatep Custom Styles Tai-Chi-Gong .flatep-red-tai*/
+
+
+.is_flatep.flatep-red-tai #logo{
+    letter-spacing: 0.15em;
+    color:rgba(119, 11, 0, 0.9);
+}
+
+.is_flatep.flatep-red-tai .header-nav-main li a,
+.is_flatep.flatep-red-tai .top-bar-nav li a,
+.is_flatep.flatep-red-tai .top-bar li div
+{
+    letter-spacing: 0.15em;
+}
+
 .is_flatep.flatep-red-tai .header-top,
 .flatep-red-tai.header-top{
     background-color: rgba(119, 11, 0, 0.74)!important;
-    min-height: 22px;
+}
+
+.is_flatep.flatep-red-tai .section{
+    margin-top:20px;
 }
 
 .is_flatep.flatep-red-tai .banner{
     background-color: rgba(255, 255, 255, 1);
 }
+    .is_flatep.flatep-red-tai .flatep-banner-title{
+        font-size: 3em;
+    }
     .is_flatep h1.flatep-red-tai, 
     .is_flatep.flatep-red-tai .row h2, 
     .is_flatep.flatep-red-tai .section h2, 
@@ -64,7 +84,9 @@ Version: 3.0
         border-bottom: rgba(119,11,0,0.74) 2px solid;
         padding: 5px 0px;
         padding-left: 5px;
+        margin-bottom: 20px;
         line-height: 1.2;
+        letter-spacing: 0.15em;
         text-transform: uppercase;
     }
 
@@ -84,12 +106,13 @@ Version: 3.0
     .is_flatep.flatep-red-tai .row .col .col-inner > h5,
     .is_flatep.flatep-red-tai .row .col .col-inner > h6,
     .is_flatep.flatep-red-tai .section .section-content > p{
-        padding-left: 10px;
-        padding-right: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
         text-align: justify;
     }
 
-    .is_flatep.flatep-red-tai .row .col > ul,
+    .is_flatep.flatep-red-tai .section .row .col > ul,
+    .is_flatep.flatep-red-tai .section .row .col .col-inner > ul,
     .is_flatep.flatep-red-tai .section .section-content > ul{
         padding-left: 50px;
         padding-right: 10px;
@@ -117,6 +140,12 @@ Version: 3.0
     overflow: hidden;
 }
 
+.is_flatep.flatep-red-tai .footer-1,
+.is_flatep.flatep-red-tai .absolute-footer{
+    background-color: #3a3a3a;
+    color:white;
+}
+
 /* Events Manager */
 .is_flatep .evt-body{padding-top:0px;}
     .is_flatep .evt-list-grouped{}
@@ -129,10 +158,19 @@ Version: 3.0
         .is_flatep .badge-evt-fupastture i{
             text-shadow: 0px 0px 10px #000, 0px 0px 2px #fff;
         }
-        .is_flatep .badge-inner .badge-evt-past{color:rgba(200, 50, 50, 0.836);}
-        .is_flatep .badge-inner.badge-evt-current{color:rgba(240, 101, 50, 0.836);}
-        .is_flatep .badge-inner.badge-evt-future{color:rgba(87, 167, 33, 0.9);}
-
+        .is_flatep .badge-inner .badge-evt-past{
+            color:rgba(200, 50, 50, 0.836);
+        }
+        .is_flatep .badge-inner.badge-evt-current,
+        .is_flatep.flatep-red-tai .em-calendar td.eventful-today a,
+        .is_flatep.flatep-red-tai .em-calendar td.eventful a{
+            color:rgba(240, 101, 50, 0.836);
+        }
+        .is_flatep .badge-inner.badge-evt-future{
+            color:rgba(75, 146, 28, 0.9);
+        }
+        
+        
     @media only screen and (max-width:48em){}
     @media only screen and (max-width:992px){}
     @media only screen and (max-width:768px){.mn-lienzo{min-width:100%;}
