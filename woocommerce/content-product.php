@@ -24,7 +24,9 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 }
 
 // Check stock status.
-$out_of_stock = get_post_meta( $post->ID, '_stock_status', true ) == 'outofstock';
+$out_of_stock = ! $product->is_in_stock();
+
+$attributes = flatep_get_products_attributes_html($product); 
 
 // Extra post classes.
 $classes   = array();
@@ -33,10 +35,10 @@ $classes[] = 'col';
 $classes[] = 'has-hover';
 
 if ( $out_of_stock ) $classes[] = 'out-of-stock';
-$cat = ''; $link_attr = '';
+$cat = ''; $link_title = '';
 if (class_exists("FlaTep_Woocommerce")){
 	$cat = FlaTep_Woocommerce::get_related_product_cat($product);
-	$link_attr = FlaTep_Woocommerce::get_the_product_link_title_seo($product->get_name(), $cat);
+	$link_title = FlaTep_Woocommerce::get_the_product_title_seo($product, $cat);
 }
 
 
@@ -48,14 +50,14 @@ if (class_exists("FlaTep_Woocommerce")){
 	<div class="product-small box <?php echo flatsome_product_box_class(); ?>">
 		<div class="box-image">
 			<div class="<?php echo flatsome_product_box_image_class(); ?>"> 
-				<a href="<?php echo get_the_permalink(); ?>" <?php echo $link_attr;  ?>>
+				<a href="<?php echo get_the_permalink(); ?>" <?php echo ' title="'.$link_title.'" aria-label="'.$link_title.'"';  ?>>
 					<?php
 						/**
 						 *
 						 * @hooked woocommerce_get_alt_product_thumbnail - 11
 						 * @hooked woocommerce_template_loop_product_thumbnail - 10
 						 */
-						do_action( 'flatsome_woocommerce_shop_loop_images' );
+						do_action( 'flatsome_woocommerce_shop_loop_images', $link_title);
 					?>
 				</a>
 			</div>
@@ -69,7 +71,7 @@ if (class_exists("FlaTep_Woocommerce")){
 				<?php do_action( 'flatsome_product_box_actions' ); ?>
 			</div>
 			<?php if ( $out_of_stock ) { ?><div class="out-of-stock-label"><?php _e( 'Out of stock', 'woocommerce' ); ?></div><?php } ?>
-		</div><!-- box-image -->
+		</div>
 
 		<div class="box-text <?php echo flatsome_product_box_text_class(); ?>">
 			<?php
@@ -79,6 +81,7 @@ if (class_exists("FlaTep_Woocommerce")){
 				do_action( 'woocommerce_shop_loop_item_title' );
 				echo '</div>';
 
+				echo $attributes;
 
 				echo '<div class="price-wrapper">';
 				do_action( 'woocommerce_after_shop_loop_item_title' );
@@ -87,8 +90,8 @@ if (class_exists("FlaTep_Woocommerce")){
 				do_action( 'flatsome_product_box_after' );
 
 			?>
-		</div><!-- box-text -->
-	</div><!-- box -->
+		</div>
+	</div>
 	<?php do_action( 'woocommerce_after_shop_loop_item' ); ?>
-	</div><!-- .col-inner -->
-</div><!-- col -->
+	</div>
+</div>

@@ -9,7 +9,7 @@
           <!-- Mobile Left Elements -->
           <div class="flex-col show-for-medium flex-left">
             <ul class="mobile-nav nav nav-left <?php flatsome_nav_classes('main-mobile'); ?>">
-              <?php flatep_header_elements('header_mobile_elements_left','mobile'); ?>
+              <?php flatsome_header_elements('header_mobile_elements_left','mobile'); ?>
             </ul>
           </div>
 
@@ -17,21 +17,21 @@
           <div class="flex-col hide-for-medium flex-left
             <?php if(get_theme_mod('logo_position', 'left') == 'left') echo 'flex-grow'; ?>">
             <ul class="header-nav header-nav-main nav nav-left <?php flatsome_nav_classes('main'); ?>" >
-              <?php flatep_header_elements('header_elements_left'); ?>
+              <?php flatsome_header_elements('header_elements_left'); ?>
             </ul>
           </div>
 
           <!-- Right Elements -->
           <div class="flex-col hide-for-medium flex-right">
             <ul class="header-nav header-nav-main nav nav-right <?php flatsome_nav_classes('main'); ?>">
-              <?php flatep_header_elements('header_elements_right'); ?>
+              <?php flatsome_header_elements('header_elements_right'); ?>
             </ul>
           </div>
 
           <!-- Mobile Right Elements -->
           <div class="flex-col show-for-medium flex-right">
             <ul class="mobile-nav nav nav-right <?php flatsome_nav_classes('main-mobile'); ?>">
-              <?php flatep_header_elements('header_mobile_elements_right','mobile'); ?>
+              <?php flatsome_header_elements('header_mobile_elements_right','mobile'); ?>
             </ul>
           </div>
 

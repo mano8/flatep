@@ -19,7 +19,7 @@ add_action( 'woocommerce_single_product_flipbook_summary', 'woocommerce_template
 $cat = ''; $link_attr = '';
 if (class_exists("FlaTep_Woocommerce")){
 	$cat = FlaTep_Woocommerce::get_related_product_cat($product);
-	$link_attr = FlaTep_Woocommerce::get_the_product_link_title_seo($product->get_name(), $cat);
+	$link_attr = FlaTep_Woocommerce::get_the_product_link_title_seo($product, $cat);
 }
 ?>
   <div class="row row-collapse align-middle flip-slide" style="width:100%">

@@ -3,9 +3,13 @@ Theme Name: FlaTep
 Description: This is a child theme for Flatsome Theme
 Author: Eli Serra
 Template: flatsome
-Version: 3.0
+Version: 3.11.3
 */
-
+.is-tep-divider{
+    margin: 0.6em 0em;
+    width: 80%;
+    max-width: 80px;
+}
 /* Inicio - Lienzo Blanco */
 .mn-lienzo{
     display:block;
@@ -31,7 +35,204 @@ Version: 3.0
         .mn-lienzo-bottom{
             text-align: right;
         }
+/* Portfolio */
 
+    .is_flatep .portfolio-box-title{
+        padding-bottom: 2px;
+    }
+    .is_flatep .portfolio-box-category{
+        border-top: 2px darkgrey solid;
+        padding-top: 2px;
+    }
+/* WooCommerce */
+/* product custom head ----- */
+.is_flatep.single-product .tep-single-product-head{
+    padding-bottom: 0px;
+}
+    /* thumbnails vertical ----- */
+    .is_flatep .vertical-thumbnails .product-thumbnails.thumbnails.slider{
+        min-height: 312px;
+        max-height: 312px;
+        overflow: hidden;
+    }
+        .is_flatep .vertical-thumbnails .product-thumbnails.thumbnails.slider .flickity-button .flickity-button-icon{
+            transform: rotate(0.25turn);
+        }
+            .is_flatep .vertical-thumbnails .product-thumbnails.thumbnails.slider .flickity-button.flickity-prev-next-button{
+                top: 0px;
+                left:30%;
+                height: 36px;
+                right: auto;
+            }
+            .is_flatep .vertical-thumbnails .product-thumbnails.thumbnails.slider .flickity-button.flickity-prev-next-button.previous{
+                top: 0px;
+            }
+            .is_flatep .vertical-thumbnails .product-thumbnails.thumbnails.slider .flickity-button.flickity-prev-next-button.next{
+                bottom: 0px;
+                top:inherit;
+            }
+                .is_flatep .vertical-thumbnails .product-thumbnails.thumbnails.slider .flickity-button.flickity-prev-next-button svg{
+                    top: 0px;
+                    left: 0px;
+                    position: relative;
+                    background-color: transparent;
+                }
+    /* Product title ----- */
+    .is_flatep.single-product h1.product-title.product_title.entry-title{
+        position: relative;
+        display: inline-block;
+        width: auto;
+    }
+
+    /* product tabs ----- */
+    .is_flatep .tabbed-content .nav, .tabbed-content .tab-panels,
+    .is_flatep .woocommerce-product-attributes.shop_attributes .woocommerce-product-attributes-item td p{
+        padding: 0px;
+        margin: 0px;
+    }
+        /* product tabs ----- */
+        .is_flatep .tabbed-content .nav, .tabbed-content .tab-panels{
+            width: auto;
+        }
+/* Inicio Tai */
+.is_flatep .banner h1.flatep-head-left{
+    text-align: right;
+    padding-right: 86px;
+}
+.is_flatep .banner h1.flatep-head-right{
+    text-align: left;
+    padding-left: 90px;
+}
+/* Flatep Custom Styles Tai-Chi-Gong .flatep-red-tai*/
+
+
+.is_flatep.flatep-red-tai #logo{
+    letter-spacing: 0.15em;
+    color:rgba(119, 11, 0, 0.9);
+}
+
+.is_flatep.flatep-red-tai .header-nav-main li a,
+.is_flatep.flatep-red-tai .top-bar-nav li a,
+.is_flatep.flatep-red-tai .top-bar li div
+{
+    letter-spacing: 0.15em;
+}
+
+.is_flatep.flatep-red-tai .header-top,
+.flatep-red-tai.header-top{
+    background-color: rgba(119, 11, 0, 0.74)!important;
+}
+
+.is_flatep.flatep-red-tai .section{
+    margin-top:20px;
+}
+
+.is_flatep.flatep-red-tai .banner{
+    background-color: rgba(255, 255, 255, 1);
+}
+    .is_flatep.flatep-red-tai .flatep-banner-title{
+        font-size: 3em;
+    }
+    .is_flatep h1.flatep-red-tai, 
+    .is_flatep.flatep-red-tai .row h2, 
+    .is_flatep.flatep-red-tai .section h2, 
+    .is_flatep h2.flatep-red-tai,
+    .is_flatep.flatep-red-tai .row h3, 
+    .is_flatep.flatep-red-tai .section h3, 
+    .is_flatep h3.flatep-red-tai, 
+    .is_flatep h4.flatep-red-tai, 
+    .is_flatep h5.flatep-red-tai, 
+    .is_flatep h6.flatep-red-tai{
+        border-bottom: rgba(119,11,0,0.74) 2px solid;
+        padding: 5px 0px;
+        padding-left: 5px;
+        margin-bottom: 20px;
+        line-height: 1.2;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+    }
+
+.is_flatep.flatep-red-tai .page-header-wrapper .text-left{
+    padding-left: 10px;
+}
+    .is_flatep.flatep-red-tai .row .col-inner p:last-child{
+        padding-bottom: 15px;
+    }
+
+    .is_flatep.flatep-red-tai .row .col > p,
+    .is_flatep.flatep-red-tai .row .col > h4,
+    .is_flatep.flatep-red-tai .row .col > h5,
+    .is_flatep.flatep-red-tai .row .col > h6,
+    .is_flatep.flatep-red-tai .row .col .col-inner > p,
+    .is_flatep.flatep-red-tai .row .col .col-inner > h4,
+    .is_flatep.flatep-red-tai .row .col .col-inner > h5,
+    .is_flatep.flatep-red-tai .row .col .col-inner > h6,
+    .is_flatep.flatep-red-tai .section .section-content > p{
+        padding-left: 20px;
+        padding-right: 20px;
+        text-align: justify;
+    }
+
+    .is_flatep.flatep-red-tai .section .row .col > ul,
+    .is_flatep.flatep-red-tai .section .row .col .col-inner > ul,
+    .is_flatep.flatep-red-tai .section .section-content > ul{
+        padding-left: 50px;
+        padding-right: 10px;
+    }
+
+    .is_flatep.flatep-red-tai .section .row .col > img,
+    .is_flatep.flatep-red-tai .section .row .col a > img,
+    .is_flatep.flatep-red-tai .row .col .col-inner > img,
+    .is_flatep.flatep-red-tai .row .col .col-inner > p > img,
+    .is_flatep.flatep-red-tai .section .section-content > img,
+    .is_flatep.flatep-red-tai .section .section-content > p img,
+    .is_flatep.flatep-red-tai .em-osm-container{
+        border: 2px groove white;
+        box-shadow: 7px 10px 10px #555;
+        -moz-border-radius: 10px 10px 10px 10px;
+        -o-border-radius: 10px 10px 10px 10px;
+        border-radius: 10px 10px 10px 10px;
+    }
+
+.is_flatep.flatep-red-tai .col.evt-list-grouped-item .col-inner > .box{
+    box-shadow: 0px 0px 10px #555;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -o-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    overflow: hidden;
+}
+
+.is_flatep.flatep-red-tai .footer-1,
+.is_flatep.flatep-red-tai .absolute-footer{
+    background-color: #3a3a3a;
+    color:white;
+}
+
+/* Events Manager */
+.is_flatep .evt-body{padding-top:0px;}
+    .is_flatep .evt-list-grouped{}
+    .is_flatep .col.evt-list-grouped-item{padding-bottom:10px;}
+    .is_flatep .badge.post-date{top:10px;left:10px;margin-left:0px;}
+    .is_flatep .badge-inner.badge-evt-past, .badge-inner.badge-evt-current, .badge-inner.badge-evt-future{padding:2px 7px;background-color:transparent;font-size:2.3em;}
+        .is_flatep .badge-evt-current,.is_flatep .badge-evt-future{padding-top:3px;}
+        .is_flatep .badge-evt-current i,
+        .is_flatep .badge-evt-future i,
+        .is_flatep .badge-evt-fupastture i{
+            text-shadow: 0px 0px 10px #000, 0px 0px 2px #fff;
+        }
+        .is_flatep .badge-inner .badge-evt-past{
+            color:rgba(200, 50, 50, 0.836);
+        }
+        .is_flatep .badge-inner.badge-evt-current,
+        .is_flatep.flatep-red-tai .em-calendar td.eventful-today a,
+        .is_flatep.flatep-red-tai .em-calendar td.eventful a{
+            color:rgba(240, 101, 50, 0.836);
+        }
+        .is_flatep .badge-inner.badge-evt-future{
+            color:rgba(75, 146, 28, 0.9);
+        }
+        
+        
     @media only screen and (max-width:48em){}
     @media only screen and (max-width:992px){}
     @media only screen and (max-width:768px){.mn-lienzo{min-width:100%;}
