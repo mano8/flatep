@@ -54,7 +54,7 @@ $classes = array( 'product-category', 'col' );
 					<div class="overlay"></div><?php } ?>
 				<?php if ( $cat_style == 'shade' ) { ?>
 					<div class="shade"></div><?php } ?>
-			</div><!-- box-image -->
+			</div>
 			<div class="box-text text-center">
 				<div class="box-text-inner">
 					<h5 class="uppercase header-title">
@@ -81,8 +81,8 @@ $classes = array( 'product-category', 'col' );
 					 */
 					do_action( 'woocommerce_after_subcategory_title', $category );
 					?>
-				</div><!-- .box-text-inner -->
-			</div><!-- .box-text -->
+				</div>
+			</div>
 		</div>
 
 		<?php do_action( 'woocommerce_after_subcategory', $category ); ?>

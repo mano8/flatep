@@ -44,7 +44,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				}
 				echo '</select>';
 				?>
-			</div><!-- .flex-col -->
+			</div>
 		<?php } ?>
 		<?php
 		$placeholder = __( 'Search', 'woocommerce' ) . '&hellip;';
@@ -59,12 +59,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php if ( defined( 'ICL_LANGUAGE_CODE' ) ): ?>
 				<input type="hidden" name="lang" value="<?php echo ICL_LANGUAGE_CODE; ?>" />
 			<?php endif ?>
-		</div><!-- .flex-col -->
+		</div>
 		<div class="flex-col">
 			<button type="submit" value="<?php echo esc_attr_x( 'Search', 'submit button', 'woocommerce' ); ?>" class="ux-search-submit submit-button secondary button icon mb-0" aria-label="<?php echo __( 'Search', 'flatsome' ); ?>">
 				<?php echo get_flatsome_icon( 'icon-search' ); ?>
 			</button>
-		</div><!-- .flex-col -->
-	</div><!-- .flex-row -->
+		</div>
+	</div>
 	<div class="live-search-results text-left z-top"></div>
 </form>

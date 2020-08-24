@@ -447,6 +447,8 @@ class FlaTep_Setup{
         // remove wordpress version from meta
 		add_filter('the_generator', array($this, 'remove_wordpress_version'));
         
+        //-> add body classes
+        add_filter( 'body_class', array($this, 'flatep_body_classes'));
         //-> update styles and scripts loader tags
         add_filter( 'style_loader_tag', array($this, 'loader_tags_update'), 99, 3 );
         add_filter( 'script_loader_tag', array($this, 'loader_tags_update'), 99, 3 );
@@ -456,23 +458,19 @@ class FlaTep_Setup{
             remove_action('wp_head', array($this, 'flatsome_viewport_meta'), 1);
             add_action( 'wp_head', array($this, 'flatep_viewport_meta'), 1 );
         }
-        //-> Select jQuery Migrate Version
-        add_action( 'wp_enqueue_scripts', array($this, 'select_jquery_mig_version'),10); 
-        //-> Select jQuery Version
-        add_action( 'wp_enqueue_scripts', array($this, 'select_jquery_version'), 10);
         //-> Setup Flatsome Scripts
         remove_action( 'wp_enqueue_scripts', 'flatsome_scripts', 100 );
         add_action( 'wp_enqueue_scripts', array($this, 'flatep_scripts'), 100 );
         //-> Select Replace enqued scripts
-        add_action( 'wp_enqueue_scripts', array($this, 'flatep_replace_enqueued'),10);
+        //add_action( 'wp_enqueue_scripts', array($this, 'flatep_replace_enqueued'),10);
         //-> Conditional load
         add_action( 'wp_enqueue_scripts', array($this, 'flatep_conditional_enqueues'), 105);
         /*if($this->debug){
             add_action( 'after_theme_setup', array($this, 'flatep_print_debug'), 100);
         }*/
-        //> Add accessibility attributes to nav menu
+        //> Add accessibility attributes to nav menu 
         add_filter( 'nav_menu_link_attributes', array($this, 'set_nav_menu_link_attributes'), 10, 4);
-               
+        
     }
     
 
@@ -508,6 +506,40 @@ class FlaTep_Setup{
 		if( get_theme_mod( 'tep_disable_generator_version', true ) ){
 			return '';
 		}
+    }
+
+    /**
+     * Adds custom classes to the array of body classes.
+     *
+     * @param array $classes Current classes.
+     *
+     * @return array $classes
+     */
+    function flatep_body_classes( $classes ) {
+        
+        // Change Body Layouts.
+        if (get_theme_mod( 'body_layout' ))  $classes[]                   = get_theme_mod( 'body_layout' );
+        if (get_theme_mod( 'box_shadow_header' )) $classes[]              = 'header-shadow';
+        if (get_theme_mod( 'body_bg_type' ) == 'bg-full-size') $classes[] = 'bg-fill';
+        if (get_theme_mod( 'box_shadow' )) $classes[]                     = 'box-shadow';
+        if (get_theme_mod( 'flatsome_lightbox', 1 )) $classes[]           = 'lightbox';
+        if (get_theme_mod( 'dropdown_arrow', 1 )) $classes[]              = 'nav-dropdown-has-arrow';
+        if (get_theme_mod( 'parallax_mobile', 0 )) $classes[]             = 'parallax-mobile';
+
+    // Add the selected page template classes if Default Template is selected.
+        $page_template =  get_post_meta( get_the_ID(), '_wp_page_template', true );
+        $default_template = get_theme_mod('pages_template');
+        if ( ( empty( $page_template ) || $page_template == "default" ) && $default_template ) {
+            $classes[] = 'page-template-' . $default_template;
+            $classes[] = 'page-template-' . $default_template . '-php';
+        }
+        //-> child part
+        if(is_flatep()){ $classes[] = 'is_flatep'; }
+        $x_style = get_theme_mod( 'global_styles_tep_custom', 'default' );
+        if 		($x_style === 'red_tai')  	{ $classes[]      = 'flatep-red-tai'; }
+        else if ($x_style === 'clear_mn')  	{ $classes[]      = 'flatep-clear-mn'; }
+        
+        return $classes;
     }
     
     /**
@@ -574,72 +606,20 @@ class FlaTep_Setup{
 
     /**
 	 * Replace enqueued script and styles source
-	 *
+	 * Add script name to replace to $list and content of data source on function-import sources.php
 	 * @since   1.0.0
 	 */
 	public function flatep_replace_enqueued(){
-		$list = array('flatsome-infinite-scroll');
+		$list = array();
 		$tst = true;
 		// Check if WooCommerce plugin is active
 		$tst = $this->replace_sources_list($list);
 		if( $this->debug ){ FlaTep_Debug::print_debug( 4, sprintf('Replace enqueued scripts -> %d',$tst) ); }
 		return $tst;
     }
-    /**
-	 * Select jQuery version to load
-	 *
-	 * @since   1.0.0
-	 */
-	public function select_jquery_version(){
-        $tst = false;
-        $v = trim(sanitize_key(get_theme_mod( 'flatep_src_jquery_version', 'default' )));
-        switch ($v) {
-            case 'jquery_cdn_1_12_4':
-                $tst = $this->flatep_update_enqueues('jquery', 'jquery-cdn-1-12-4', true);
-                break;
-			
-            case 'jquery_cdn_2_2_4':
-                $tst = $this->flatep_update_enqueues('jquery', 'jquery-cdn-2-2-4', true);
-				break;
-			
-            case 'jquery_cdn_3_4_1':
-                $tst = $this->flatep_update_enqueues('jquery', 'jquery-cdn-3-4-1', true);
-				break;
-
-			default:
-				# code...
-				break;
-        }
-        
-        if( $this->debug ){ FlaTep_Debug::print_debug( 4, sprintf('Select jQuery Version -> %d',$tst) ); }
-		return $tst;
-    }
-    /**
-	 * Select jQuery version to load
-	 *
-	 * @since   1.0.0
-	 */
-	public function select_jquery_mig_version(){
-        $tst = false;
-        $v = trim(sanitize_key(get_theme_mod( 'flatep_src_jquery_mig_version', 'default' )));
-        switch ($v) {
-            case 'jquery_mig_cdn_1_4_1':
-                $tst = $this->flatep_update_enqueues('jquery-migrate', 'jquery-mig-cdn-1-4-1', true);
-                break;
-			
-            case 'jquery_mig_cdn_3_1_0':
-                $tst = $this->flatep_update_enqueues('jquery-migrate', 'jquery-mig-cdn-3-1-0', true);
-                break;
-
-			default:
-				# code...
-				break;
-        }
-
-		if( $this->debug ){ FlaTep_Debug::print_debug( 4, sprintf('Select jQuery Migrate Version -> %d', $tst) ); }
-		return $tst;
-	}
     
+    
+
     /**
      * Setup Flatsome Styles and Scripts
      */
@@ -723,18 +703,7 @@ class FlaTep_Setup{
 	 * @since   1.0.0
 	 */
 	public function set_nav_menu_link_attributes($atts, $item, $args, $depth){
-		//print_r($atts);
-        /*var_dump( $atts, $item ); // a lot of stuff we can use
-
-        var_dump( $atts['href'] ); // string(36) "http://dev.rarst.net/our-philosophy/"
-
-        var_dump( get_the_title( $item->object_id ) ); // string(14) "Our Philosophy", note $item itself is NOT a page
-
-        if ( get_the_title( $item->object_id ) === 'Our Philosophy' ) { // for example
-
-            $atts['href'] = 'https://example.com/';
-        }*/
-        if (!empty($atts['title'])){
+		if (!empty($atts['title'])){
             $atts['aria-label'] =  $atts['title'];
         }
         else{

@@ -3,9 +3,13 @@ Theme Name: FlaTep
 Description: This is a child theme for Flatsome Theme
 Author: Eli Serra
 Template: flatsome
-Version: 3.0
+Version: 3.11.3
 */
-
+.is-tep-divider{
+    margin: 0.6em 0em;
+    width: 80%;
+    max-width: 80px;
+}
 /* Inicio - Lienzo Blanco */
 .mn-lienzo{
     display:block;
@@ -31,7 +35,65 @@ Version: 3.0
         .mn-lienzo-bottom{
             text-align: right;
         }
+/* Portfolio */
 
+    .is_flatep .portfolio-box-title{
+        padding-bottom: 2px;
+    }
+    .is_flatep .portfolio-box-category{
+        border-top: 2px darkgrey solid;
+        padding-top: 2px;
+    }
+/* WooCommerce */
+/* product custom head ----- */
+.is_flatep.single-product .tep-single-product-head{
+    padding-bottom: 0px;
+}
+    /* thumbnails vertical ----- */
+    .is_flatep .vertical-thumbnails .product-thumbnails.thumbnails.slider{
+        min-height: 312px;
+        max-height: 312px;
+        overflow: hidden;
+    }
+        .is_flatep .vertical-thumbnails .product-thumbnails.thumbnails.slider .flickity-button .flickity-button-icon{
+            transform: rotate(0.25turn);
+        }
+            .is_flatep .vertical-thumbnails .product-thumbnails.thumbnails.slider .flickity-button.flickity-prev-next-button{
+                top: 0px;
+                left:30%;
+                height: 36px;
+                right: auto;
+            }
+            .is_flatep .vertical-thumbnails .product-thumbnails.thumbnails.slider .flickity-button.flickity-prev-next-button.previous{
+                top: 0px;
+            }
+            .is_flatep .vertical-thumbnails .product-thumbnails.thumbnails.slider .flickity-button.flickity-prev-next-button.next{
+                bottom: 0px;
+                top:inherit;
+            }
+                .is_flatep .vertical-thumbnails .product-thumbnails.thumbnails.slider .flickity-button.flickity-prev-next-button svg{
+                    top: 0px;
+                    left: 0px;
+                    position: relative;
+                    background-color: transparent;
+                }
+    /* Product title ----- */
+    .is_flatep.single-product h1.product-title.product_title.entry-title{
+        position: relative;
+        display: inline-block;
+        width: auto;
+    }
+
+    /* product tabs ----- */
+    .is_flatep .tabbed-content .nav, .tabbed-content .tab-panels,
+    .is_flatep .woocommerce-product-attributes.shop_attributes .woocommerce-product-attributes-item td p{
+        padding: 0px;
+        margin: 0px;
+    }
+        /* product tabs ----- */
+        .is_flatep .tabbed-content .nav, .tabbed-content .tab-panels{
+            width: auto;
+        }
 /* Inicio Tai */
 .is_flatep .banner h1.flatep-head-left{
     text-align: right;

@@ -3,30 +3,30 @@
     <div class="flex-row container">
       <div class="flex-col hide-for-medium flex-left">
           <ul class="nav nav-left medium-nav-center nav-small <?php flatsome_nav_classes('top'); ?>">
-              <?php flatep_header_elements('topbar_elements_left'); ?>
+              <?php flatsome_header_elements('topbar_elements_left'); ?>
           </ul>
-      </div><!-- flex-col left -->
+      </div>
 
       <div class="flex-col hide-for-medium flex-center">
           <ul class="nav nav-center nav-small <?php flatsome_nav_classes('top'); ?>">
-              <?php flatep_header_elements('topbar_elements_center'); ?>
+              <?php flatsome_header_elements('topbar_elements_center'); ?>
           </ul>
-      </div><!-- center -->
+      </div>
 
       <div class="flex-col hide-for-medium flex-right">
          <ul class="nav top-bar-nav nav-right nav-small <?php flatsome_nav_classes('top'); ?>">
-              <?php flatep_header_elements('topbar_elements_right'); ?>
+              <?php flatsome_header_elements('topbar_elements_right'); ?>
           </ul>
-      </div><!-- .flex-col right -->
+      </div>
 
       <?php if(get_theme_mod('header_mobile_elements_top')) { ?>
       <div class="flex-col show-for-medium flex-grow">
           <ul class="nav nav-center nav-small mobile-nav <?php flatsome_nav_classes('top'); ?>">
-              <?php flatep_header_elements('header_mobile_elements_top'); ?>
+              <?php flatsome_header_elements('header_mobile_elements_top'); ?>
           </ul>
       </div>
       <?php } ?>
 
-    </div><!-- .flex-row -->
-</div><!-- #header-top -->
+    </div>
+</div>
 <?php } ?>
