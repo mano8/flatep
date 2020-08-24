@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Handles the woocommerce product box structure
+ *
+ * @author  UX Themes
+ * @package Flatsome/WooCommerce
+ */
 if ( ! function_exists( 'flatsome_woocommerce_get_alt_product_thumbnail' ) ) {
 	/**
 	 * Get Hover image for WooCommerce Grid

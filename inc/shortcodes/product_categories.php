@@ -217,7 +217,7 @@ function flatep_product_categories($atts, $content = null, $tag) {
                   <?php if($image_overlay){ ?><div class="overlay" style="background-color: <?php echo $image_overlay;?>"></div><?php } ?>
                   <?php if($style == 'shade'){ ?><div class="shade"></div><?php } ?>
                   </div>
-                </div><!-- box-image -->
+                </div>
                 <div class="box-text <?php echo implode(' ', $classes_text); ?>" <?php echo get_shortcode_inline_css($css_args); ?>>
                   <div class="box-text-inner">
                       <h5 class="uppercase header-title">
@@ -250,12 +250,12 @@ function flatep_product_categories($atts, $content = null, $tag) {
                         do_action( 'woocommerce_after_subcategory_title', $category );
                       ?>
 
-                  </div><!-- .box-text-inner -->
-                </div><!-- .box-text -->
-                </div><!-- .box -->
+                  </div>
+                </div>
+                </div>
             <?php do_action( 'woocommerce_after_subcategory', $category ); ?>
-            </div><!-- .col-inner -->
-            </div><!-- .col -->
+            </div>
+            </div>
         <?php
       }
     }

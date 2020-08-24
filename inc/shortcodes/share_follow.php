@@ -38,7 +38,7 @@ function flatep_share($atts, $content = null) {
 	}
 
 	$featured_image =  wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'large');
-	$featured_image_2 = $featured_image['0'];
+	$share_img = $featured_image ? $featured_image['0'] : '';
 	$post_title = rawurlencode(get_the_title($post_id));
 	$whatsapp_text = $post_title.' - '.$permalink;
 
@@ -74,7 +74,7 @@ function flatep_share($atts, $content = null) {
 	<div class="<?php echo implode(' ', $wrapper_class); ?>" <?php echo $scale;?>>
 		  <?php echo $title; ?>
 		  <?php if(in_array('whatsapp', $share)){ ?>
-		  <a href="whatsapp://send?text=<?php echo $whatsapp_text; ?>" data-action="share/whatsapp/share" class="<?php echo $classes;?> whatsapp show-for-medium" title="<?php _e('Share on WhatsApp','flatsome'); ?>" data-label="WhatsApp" aria-label="<?php _e('Share on WhatsApp','flatsome'); ?>"><i class="icon-phone"></i></a>
+		  <a href="whatsapp://send?text=<?php echo $whatsapp_text; ?>" data-action="share/whatsapp/share" class="<?php echo $classes;?> whatsapp show-for-medium" title="<?php _e('Share on WhatsApp','flatsome'); ?>" data-label="WhatsApp" aria-label="<?php _e('Share on WhatsApp','flatsome'); ?>"><i class="icon-whatsapp"></i></a>
 		  <?php } if(in_array('facebook', $share)){ ?>
 		  <a href="//www.facebook.com/sharer.php?u=<?php echo $permalink; ?>" onclick="window.open(this.href,this.title,'width=500,height=500,top=300px,left=300px');  return false;" rel="noopener noreferrer nofollow" target="_blank" class="<?php echo $classes;?> facebook" data-label="Facebook" aria-label="<?php _e('Share on Facebook','flatsome'); ?>" title="<?php _e('Share on Facebook','flatsome'); ?>"><?php echo get_flatsome_icon('icon-facebook'); ?></a>
 		  <?php } if(in_array('twitter', $share)){ ?>
@@ -82,7 +82,7 @@ function flatep_share($atts, $content = null) {
           <?php } if(in_array('email', $share)){ ?>
           <a href="mailto:enteryour@addresshere.com?subject=<?php echo $post_title; ?>&amp;body=Check%20this%20out:%20<?php echo $permalink; ?>" rel="nofollow" class="<?php echo $classes;?> email" data-label="Email"  aria-label="<?php _e('Email to a Friend','flatsome'); ?>" title="<?php _e('Email to a Friend','flatsome'); ?>"><?php echo get_flatsome_icon('icon-envelop'); ?></a>
           <?php } if(in_array('pinterest', $share)){ ?>
-          <a href="//pinterest.com/pin/create/button/?url=<?php echo $permalink; ?>&amp;media=<?php echo $featured_image_2; ?>&amp;description=<?php echo $post_title; ?>" onclick="window.open(this.href,this.title,'width=500,height=500,top=300px,left=300px');  return false;" rel="noopener noreferrer nofollow" target="_blank" class="<?php echo $classes;?> pinterest" data-label="Pinterest" aria-label="<?php _e('Pin on Pinterest','flatsome'); ?>" title="<?php _e('Pin on Pinterest','flatsome'); ?>"><?php echo get_flatsome_icon('icon-pinterest'); ?></a>
+          <a href="//pinterest.com/pin/create/button/?url=<?php echo $permalink; ?>&amp;media=<?php echo $share_img; ?>&amp;description=<?php echo $post_title; ?>" onclick="window.open(this.href,this.title,'width=500,height=500,top=300px,left=300px');  return false;" rel="noopener noreferrer nofollow" target="_blank" class="<?php echo $classes;?> pinterest" data-label="Pinterest" aria-label="<?php _e('Pin on Pinterest','flatsome'); ?>" title="<?php _e('Pin on Pinterest','flatsome'); ?>"><?php echo get_flatsome_icon('icon-pinterest'); ?></a>
           <?php } if(in_array('vk', $share)){ ?>
           <a href="//vkontakte.ru/share.php?url=<?php echo $permalink; ?>" target="_blank" class="<?php echo $classes;?> vk" onclick="window.open(this.href,this.title,'width=500,height=500,top=300px,left=300px');  return false;" rel="noopener noreferrer nofollow" data-label="VKontakte" aria-label="<?php _e('Share on VKontakte','flatsome'); ?>" title="<?php _e('Share on VKontakte','flatsome'); ?>"><?php echo get_flatsome_icon('icon-vk'); ?></a>
           <?php } if(in_array('linkedin', $share)){ ?>

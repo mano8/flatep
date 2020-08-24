@@ -462,7 +462,7 @@ class FlaTep_Setup{
         remove_action( 'wp_enqueue_scripts', 'flatsome_scripts', 100 );
         add_action( 'wp_enqueue_scripts', array($this, 'flatep_scripts'), 100 );
         //-> Select Replace enqued scripts
-        add_action( 'wp_enqueue_scripts', array($this, 'flatep_replace_enqueued'),10);
+        //add_action( 'wp_enqueue_scripts', array($this, 'flatep_replace_enqueued'),10);
         //-> Conditional load
         add_action( 'wp_enqueue_scripts', array($this, 'flatep_conditional_enqueues'), 105);
         /*if($this->debug){
@@ -606,11 +606,11 @@ class FlaTep_Setup{
 
     /**
 	 * Replace enqueued script and styles source
-	 *
+	 * Add script name to replace to $list and content of data source on function-import sources.php
 	 * @since   1.0.0
 	 */
 	public function flatep_replace_enqueued(){
-		$list = array('flatsome-infinite-scroll');
+		$list = array();
 		$tst = true;
 		// Check if WooCommerce plugin is active
 		$tst = $this->replace_sources_list($list);

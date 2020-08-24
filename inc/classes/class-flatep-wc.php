@@ -291,32 +291,6 @@ class FlaTep_Woocommerce{
         */
         
     }
-    /*function flatep_set_product_schema() {
-
-        function flatep_product_schema(){
-            global $product;
-            $cat = FlaTep_Woocommerce::get_related_product_cat($product);
-            $title = FlaTep_Woocommerce::get_the_product_title_seo($product, $cat);
-            FlaTep_Debug::print_debug( 4, sprintf('Setting product schema for -> %s - product : %s - title : %s',
-                $product->get_name(), 
-                $cat,
-                $title
-            ) );
-            $schema = array(
-                "@context" => "https://schema.org/",
-                "@type" => "Product",
-            );
-            // build up the schema
-            $output = json_encode( $schema, JSON_UNESCAPED_SLASHES );
-            ?>
-            <script type="application/ld+json">
-                <?php $output; ?>
-            </script>
-            <?php
-        }
-        add_action( 'wp_footer', 'flatep_product_schema', 10 );
-        
-      }*/
 
     private function woo_add_cat_meta_fields(){
         if(get_theme_mod( 'flatep_wc_add_cat_meta_years', false )){

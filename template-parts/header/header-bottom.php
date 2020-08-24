@@ -8,7 +8,7 @@
                 <ul class="nav header-nav header-bottom-nav nav-left <?php flatsome_nav_classes('bottom'); ?>">
                     <?php flatsome_header_elements('header_elements_bottom_left','nav_position_text'); ?>
                 </ul>
-            </div><!-- flex-col -->
+            </div>
             <?php } ?>
 
             <?php if(get_theme_mod('header_elements_bottom_center')){ ?>
@@ -16,7 +16,7 @@
                 <ul class="nav header-nav header-bottom-nav nav-center <?php flatsome_nav_classes('bottom'); ?>">
                     <?php flatsome_header_elements('header_elements_bottom_center','nav_position_text'); ?>
                 </ul>
-            </div><!-- flex-col -->
+            </div>
             <?php } ?>
 
             <?php if(get_theme_mod('header_elements_bottom_right') || get_theme_mod('header_elements_bottom_left')){ ?>
@@ -24,7 +24,7 @@
               <ul class="nav header-nav header-bottom-nav nav-right <?php flatsome_nav_classes('bottom'); ?>">
                    <?php flatsome_header_elements('header_elements_bottom_right','nav_position_text'); ?>
               </ul>
-            </div><!-- flex-col -->
+            </div>
             <?php } ?>
 
             <?php if(get_theme_mod('header_mobile_elements_bottom')) { ?>
@@ -35,8 +35,8 @@
               </div>
             <?php } ?>
 
-    </div><!-- .flex-row -->
-</div><!-- .header-bottom -->
+    </div>
+</div>
 <?php } ?>
 
 <?php do_action('flatsome_after_header_bottom'); ?>

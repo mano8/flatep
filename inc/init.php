@@ -17,7 +17,7 @@ require get_stylesheet_directory() . '/inc/functions/function-conditionals.php';
  * Woocommerce functions and classes
  */
 if(is_woocommerce_activated()){
-    require get_stylesheet_directory() . '/inc/woocommerce/structure-wc-global.php';
+    //require get_stylesheet_directory() . '/inc/woocommerce/structure-wc-global.php';
     require get_stylesheet_directory() . '/inc/classes/class-flatep-wc.php';
     require get_stylesheet_directory() . '/inc/woocommerce/structure-wc-product-box.php';
 }
