@@ -60,6 +60,35 @@ Flatsome_Option::add_field( 'option', array(
 
 Flatsome_Option::add_field( '', array(
 	'type'     => 'custom',
+	'settings' => 'flatep_src_title_jetpack',
+	'label'    => __( '', 'flatsome-admin' ),
+	'section'  => 'flatep-options-sources',
+	'default'  => '<div class="options-title-divider">Jet Pack Conditional loads :</div>',
+) );
+
+Flatsome_Option::add_field( 'option', array(
+	'type'     => 'select',
+	'settings' => 'flatep_src_jetpack_enqueue',
+	'label'    => __( 'Jetpack conditional load', 'flatsome-admin' ),
+	'section'  => 'flatep-options-sources',
+	'default'  => 'default',
+	'choices'  => array(
+        'default'               => __( '', 'flatsome-admin' ),
+        'selected_pages'      => __( 'Only on selected pages', 'flatsome-admin' ),
+		'never'             => __( 'Never', 'flatsome-admin' ),
+	),
+));
+Flatsome_Option::add_field( 'option', array(
+	'type'        => 'text',
+	'settings'    => 'flatep_src_jetpack_pages',
+	'label'       => __( 'Pages list to load jetpack', 'flatsome-admin' ),
+	'description' => __( 'Set to -1 for home and set list of page ids or slug separated by a coma.', 'flatsome-admin' ),
+	'section'     => 'flatep-options-sources',
+	'transport'   => 'postMessage',
+) );
+
+Flatsome_Option::add_field( '', array(
+	'type'     => 'custom',
 	'settings' => 'flatep_src_title_woo',
 	'label'    => __( '', 'flatsome-admin' ),
 	'section'  => 'flatep-options-sources',
@@ -97,33 +126,6 @@ Flatsome_Option::add_field( 'option', array(
 	'transport'   => 'postMessage',
 ) );
 
-Flatsome_Option::add_field( '', array(
-	'type'     => 'custom',
-	'settings' => 'flatep_src_title_jetpack',
-	'label'    => __( '', 'flatsome-admin' ),
-	'section'  => 'flatep-options-sources',
-	'default'  => '<div class="options-title-divider">Woocommerce :</div>',
-) );
 
-Flatsome_Option::add_field( 'option', array(
-	'type'     => 'select',
-	'settings' => 'flatep_src_jetpack_enqueue',
-	'label'    => __( 'Jetpack conditional load', 'flatsome-admin' ),
-	'section'  => 'flatep-options-sources',
-	'default'  => 'default',
-	'choices'  => array(
-        'default'               => __( '', 'flatsome-admin' ),
-        'selected_pages'      => __( 'Only on selected pages', 'flatsome-admin' ),
-		'never'             => __( 'Never', 'flatsome-admin' ),
-	),
-));
-Flatsome_Option::add_field( 'option', array(
-	'type'        => 'text',
-	'settings'    => 'flatep_src_jetpack_pages',
-	'label'       => __( 'Pages list to load jetpack', 'flatsome-admin' ),
-	'description' => __( 'Set to -1 for home and set list of page ids or slug separated by a coma.', 'flatsome-admin' ),
-	'section'     => 'flatep-options-sources',
-	'transport'   => 'postMessage',
-) );
 
 

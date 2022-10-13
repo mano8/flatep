@@ -304,43 +304,6 @@ class FlaTep_Setup{
         return $tst;		
     }
 
-    /**
-	 * Replace to cdn providers list of handles
-	 *
-	 * @since   1.0.0
-	 */
-	private function woocomerce_conditional(){
-        $tst = -1;
-        if( is_woocommerce_activated() ){
-            $list = array();
-            if( get_theme_mod( 'flatep_src_woo_disable_card', false ) ){
-                $list = array(
-                    'wc-cart-fragments' => 'script',
-                    'wc-add-to-cart' => 'script',
-                );
-            }
-
-            $act = get_theme_mod( 'flatep_src_woo_enqueue', 'default' );
-            $is_shop_page = false;
-            if($act === 'shop_pages'){
-                $is_shop_page = (! is_cart() && ! is_checkout() );
-            }
-            $is_base = $this->is_conditional_loader_base($act, get_theme_mod( 'flatep_src_woo_pages', '' ));
-            if( $is_shop_page || $is_base ){
-                $list['woocommerce-layout'] = 'style';
-                $list['woocommerce-general']    = 'style';
-                $list['woocommerce-smallscreen'] = 'style';
-                $list['wc-cart-fragments'] = 'script';
-                $list['woocommerce'] = 'script';
-                $list['flatsome-theme-woocommerce-js'] = 'script';
-                $list['wc-add-to-cart'] = 'script';
-            }
-            $nb = $this->dequeue_style_list($list);
-            if( $this->debug ){ FlaTep_Debug::print_debug( 3, sprintf('Woocommerce conditional load : nb dequeued -> %d / %d -- is_shop : %d -- is_base : %d', $nb, count($list), $is_shop_page, $is_base)); }
-        }	
-        return $tst;
-    }
-
     
 
     /**
@@ -447,30 +410,23 @@ class FlaTep_Setup{
         // remove wordpress version from meta
 		add_filter('the_generator', array($this, 'remove_wordpress_version'));
         
-        //-> add body classes
-        add_filter( 'body_class', array($this, 'flatep_body_classes'));
         //-> update styles and scripts loader tags
         add_filter( 'style_loader_tag', array($this, 'loader_tags_update'), 99, 3 );
         add_filter( 'script_loader_tag', array($this, 'loader_tags_update'), 99, 3 );
         
         //-> update viewport meta
         if(get_theme_mod( 'flatep_seo_viewport', false )){
-            remove_action('wp_head', array($this, 'flatsome_viewport_meta'), 1);
-            add_action( 'wp_head', array($this, 'flatep_viewport_meta'), 1 );
+            add_filter( 'flatsome_viewport_meta', array($this, 'flatep_viewport_meta'));
         }
-        //-> Setup Flatsome Scripts
-        remove_action( 'wp_enqueue_scripts', 'flatsome_scripts', 100 );
-        add_action( 'wp_enqueue_scripts', array($this, 'flatep_scripts'), 100 );
-        //-> Select Replace enqued scripts
-        //add_action( 'wp_enqueue_scripts', array($this, 'flatep_replace_enqueued'),10);
+        
         //-> Conditional load
         add_action( 'wp_enqueue_scripts', array($this, 'flatep_conditional_enqueues'), 105);
         /*if($this->debug){
             add_action( 'after_theme_setup', array($this, 'flatep_print_debug'), 100);
         }*/
-        //> Add accessibility attributes to nav menu 
+        //> Add accessibility attributes to nav menu
         add_filter( 'nav_menu_link_attributes', array($this, 'set_nav_menu_link_attributes'), 10, 4);
-        
+               
     }
     
 
@@ -492,7 +448,8 @@ class FlaTep_Setup{
      * @return void
      */
     function flatep_viewport_meta() {
-        echo apply_filters( 'flatsome_viewport_meta', '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped       
+        //echo apply_filters( 'flatsome_viewport_meta', '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped       
+        return '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />';
     }
 
     /**
@@ -506,40 +463,6 @@ class FlaTep_Setup{
 		if( get_theme_mod( 'tep_disable_generator_version', true ) ){
 			return '';
 		}
-    }
-
-    /**
-     * Adds custom classes to the array of body classes.
-     *
-     * @param array $classes Current classes.
-     *
-     * @return array $classes
-     */
-    function flatep_body_classes( $classes ) {
-        
-        // Change Body Layouts.
-        if (get_theme_mod( 'body_layout' ))  $classes[]                   = get_theme_mod( 'body_layout' );
-        if (get_theme_mod( 'box_shadow_header' )) $classes[]              = 'header-shadow';
-        if (get_theme_mod( 'body_bg_type' ) == 'bg-full-size') $classes[] = 'bg-fill';
-        if (get_theme_mod( 'box_shadow' )) $classes[]                     = 'box-shadow';
-        if (get_theme_mod( 'flatsome_lightbox', 1 )) $classes[]           = 'lightbox';
-        if (get_theme_mod( 'dropdown_arrow', 1 )) $classes[]              = 'nav-dropdown-has-arrow';
-        if (get_theme_mod( 'parallax_mobile', 0 )) $classes[]             = 'parallax-mobile';
-
-    // Add the selected page template classes if Default Template is selected.
-        $page_template =  get_post_meta( get_the_ID(), '_wp_page_template', true );
-        $default_template = get_theme_mod('pages_template');
-        if ( ( empty( $page_template ) || $page_template == "default" ) && $default_template ) {
-            $classes[] = 'page-template-' . $default_template;
-            $classes[] = 'page-template-' . $default_template . '-php';
-        }
-        //-> child part
-        if(is_flatep()){ $classes[] = 'is_flatep'; }
-        $x_style = get_theme_mod( 'global_styles_tep_custom', 'default' );
-        if 		($x_style === 'red_tai')  	{ $classes[]      = 'flatep-red-tai'; }
-        else if ($x_style === 'clear_mn')  	{ $classes[]      = 'flatep-clear-mn'; }
-        
-        return $classes;
     }
     
     /**
@@ -587,7 +510,6 @@ class FlaTep_Setup{
 	 * Flatep Conditional loader. 
      * Dequeue all, plugin and themes, scripts and styles, defined.
      * Run on :
-     *          - Woocommerce
      *          - Jetpack
      * 
 	 *
@@ -595,31 +517,13 @@ class FlaTep_Setup{
 	 */
 	public function flatep_conditional_enqueues(){
         $tst = true;
-        //->woocommerce conditional load of script and styles
-        $tst = ($this->woocomerce_conditional() === false) ? false : $tst;
-        //-> disable woocommerce add to card  
+        //-> disable jepack non used scripts
         $tst = ($this->jetpack_conditional() === false) ? false : $tst;
 
 		if( $this->debug ){ FlaTep_Debug::print_debug( 3, sprintf('Conditional enqueues -> %d',$tst) ); }
 		return $tst;
     }
-
-    /**
-	 * Replace enqueued script and styles source
-	 * Add script name to replace to $list and content of data source on function-import sources.php
-	 * @since   1.0.0
-	 */
-	public function flatep_replace_enqueued(){
-		$list = array();
-		$tst = true;
-		// Check if WooCommerce plugin is active
-		$tst = $this->replace_sources_list($list);
-		if( $this->debug ){ FlaTep_Debug::print_debug( 4, sprintf('Replace enqueued scripts -> %d',$tst) ); }
-		return $tst;
-    }
     
-    
-
     /**
      * Setup Flatsome Styles and Scripts
      */
@@ -633,12 +537,6 @@ class FlaTep_Setup{
             wp_enqueue_style( 'flatsome-main', $uri . '/assets/css/flatsome.css', array(), $version, 'all' );
         } else {
             wp_enqueue_style( 'flatsome-main-rtl', $uri . '/assets/css/flatsome-rtl.css', array(), $version, 'all' );
-        }
-
-        if ( is_woocommerce_activated() && ! is_rtl() ) {
-            wp_enqueue_style( 'flatsome-shop', $uri . '/assets/css/flatsome-shop.css', array(), $version, 'all' );
-        } elseif ( is_woocommerce_activated() ) {
-            wp_enqueue_style( 'flatsome-shop-rtl', $uri . '/assets/css/flatsome-shop-rtl.css', array(), $version, 'all' );
         }
 
         // Load current theme styles.css file.
@@ -660,11 +558,6 @@ class FlaTep_Setup{
         }
 
         // Enqueue theme scripts.
-        wp_enqueue_script( 'flatsome-js', get_stylesheet_directory_uri() . '/assets/js/flatsome.js', array(
-            'jquery',
-            'hoverIntent',
-        ), $version, true );
-
         $sticky_height = get_theme_mod( 'header_height_sticky', 70 );
 
         if ( is_admin_bar_showing() ) {
@@ -688,10 +581,6 @@ class FlaTep_Setup{
             ),
         ) );
 
-        if ( is_woocommerce_activated() ) {
-            wp_enqueue_script( 'flatsome-theme-woocommerce-js', $uri . '/assets/js/woocommerce.js', array( 'flatsome-js' ), $version, true );
-        }
-
         if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
             wp_enqueue_script( 'comment-reply' );
         }
@@ -703,7 +592,18 @@ class FlaTep_Setup{
 	 * @since   1.0.0
 	 */
 	public function set_nav_menu_link_attributes($atts, $item, $args, $depth){
-		if (!empty($atts['title'])){
+		//print_r($atts);
+        /*var_dump( $atts, $item ); // a lot of stuff we can use
+
+        var_dump( $atts['href'] ); // string(36) "http://dev.rarst.net/our-philosophy/"
+
+        var_dump( get_the_title( $item->object_id ) ); // string(14) "Our Philosophy", note $item itself is NOT a page
+
+        if ( get_the_title( $item->object_id ) === 'Our Philosophy' ) { // for example
+
+            $atts['href'] = 'https://example.com/';
+        }*/
+        if (!empty($atts['title'])){
             $atts['aria-label'] =  $atts['title'];
         }
         else{

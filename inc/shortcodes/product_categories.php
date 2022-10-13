@@ -1,7 +1,7 @@
 <?php
 
 // [ux_product_categories]
-function flatep_product_categories($atts, $content = null, $tag) {
+function flatep_product_categories($atts, $content = null, $tag = '' ) {
   $sliderrandomid = rand();
   extract( shortcode_atts( array (
 
@@ -99,7 +99,7 @@ function flatep_product_categories($atts, $content = null, $tag) {
     $is_meta_years = ($show_years && get_theme_mod( 'flatep_wc_add_cat_meta_years', true )) ? true : false;
     $product_categories = get_terms( 'product_cat', $args );
 
-    if ( !empty($parent) ) $product_categories = wp_list_filter( $product_categories, array( 'parent' => $parent ) );
+    if ( ! empty( $parent ) ) $product_categories = wp_list_filter( $product_categories, array( 'parent' => $parent === 'false' ? 0 : $parent ) );
     if ( !empty($number) ) $product_categories = array_slice( $product_categories, 0, $number );
 
     $classes_box = array('box','box-category','has-hover');
@@ -152,28 +152,29 @@ function flatep_product_categories($atts, $content = null, $tag) {
     );
 
     // Repeater options
-    $repater['id'] = $_id;
-    $repater['class'] = $class;
-    $repater['visibility'] = $visibility;
-    $repater['tag'] = $tag;
-    $repater['type'] = $type;
-    $repater['style'] = $style;
-    $repater['format'] = $image_height;
-    $repater['slider_style'] = $slider_nav_style;
-    $repater['slider_nav_color'] = $slider_nav_color;
-    $repater['slider_nav_position'] = $slider_nav_position;
-    $repater['slider_bullets'] = $slider_bullets;
-    $repater['auto_slide'] = $auto_slide;
-    $repater['row_spacing'] = $col_spacing;
-    $repater['row_width'] = $width;
-    $repater['columns'] = $columns;
-    $repater['columns__sm'] = $columns__sm;
-    $repater['columns__md'] = $columns__md;
-    $repater['depth'] = $depth;
-    $repater['depth_hover'] = $depth_hover;
+    $repeater['id'] = $_id;
+    $repeater['class'] = $class;
+    $repeater['visibility'] = $visibility;
+    $repeater['tag'] = $tag;
+    $repeater['type'] = $type;
+    $repeater['style'] = $style;
+    $repeater['format'] = $image_height;
+    $repeater['slider_style'] = $slider_nav_style;
+    $repeater['slider_nav_color'] = $slider_nav_color;
+    $repeater['slider_nav_position'] = $slider_nav_position;
+    $repeater['slider_bullets'] = $slider_bullets;
+    $repeater['auto_slide'] = $auto_slide;
+	$repeater['infinitive'] = $infinitive;
+    $repeater['row_spacing'] = $col_spacing;
+    $repeater['row_width'] = $width;
+    $repeater['columns'] = $columns;
+    $repeater['columns__sm'] = $columns__sm;
+    $repeater['columns__md'] = $columns__md;
+    $repeater['depth'] = $depth;
+    $repeater['depth_hover'] = $depth_hover;
 
 
-    get_flatsome_repeater_start($repater);
+    get_flatsome_repeater_start($repeater);
 
     if ( $product_categories ) {
       foreach ( $product_categories as $category ) {
@@ -201,13 +202,12 @@ function flatep_product_categories($atts, $content = null, $tag) {
 
         if ( $thumbnail_id ) {
           $image = wp_get_attachment_image_src( $thumbnail_id, $thumbnail_size);
-          $image = $image[0];
+          $image = $image ? $image[0] : wc_placeholder_img_src();
         } else {
           $image = wc_placeholder_img_src();
         }
 
-        ?>
-        <div class="<?php echo implode(' ', $classes_col); ?>" <?php echo $animate;?>>
+        ?><div class="<?php echo implode(' ', $classes_col); ?>" <?php echo $animate;?>>
             <div class="col-inner">
               <?php do_action( 'woocommerce_before_subcategory', $category ); ?>
                 <div class="<?php echo implode(' ', $classes_box); ?> ">
@@ -261,7 +261,7 @@ function flatep_product_categories($atts, $content = null, $tag) {
     }
     woocommerce_reset_loop();
 
-    get_flatsome_repeater_end($repater);
+    get_flatsome_repeater_end($repeater);
 
     $content = ob_get_contents();
     ob_end_clean();

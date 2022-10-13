@@ -26,16 +26,17 @@ function set_flatep_scopes($og_scope){
   return $res;
 }
 // [ux_events_list_grouped]
-function flatep_ux_events_list_grouped($atts, $content = null, $tag) {
+function flatep_ux_events_list_grouped($atts, $content = null, $tag = '') {
 
   if ( ! is_array( $atts ) ) {
     $atts = array();
   }
-
+  $sliderrandomid = rand();
   extract(shortcode_atts(array(
 		// Meta
       'number'     => null,
       '_id' => 'evt-list-grp-'.rand(),
+      'hide_empty' => 1,
       'class' => '',
       'visibility' => '',
       'title' => '',
@@ -108,7 +109,31 @@ function flatep_ux_events_list_grouped($atts, $content = null, $tag) {
     $type = 'grid';
   }
  
-  //$hide_empty = ( $hide_empty == true || $hide_empty == 1 ) ? 1 : 0;
+  $hide_empty = ( $hide_empty == true || $hide_empty == 1 ) ? 1 : 0;
+
+    // if Ids
+    if ( isset( $atts[ 'ids' ] ) ) {
+      $ids = explode( ',', $atts[ 'ids' ] );
+      $ids = array_map( 'trim', $ids );
+      $parent = '';
+      $og_orderby = 'include';
+    } else {
+      $ids = array();
+    }
+
+    // get terms and workaround WP bug with parents/pad counts
+    $args = array(
+      'og_orderby' => $og_orderby,
+      'og_order'   => $og_order,
+      'hide_empty' => $hide_empty,
+      'include'    => $ids,
+      'pad_counts' => true,
+      'child_of'   => 0,
+      'og_offset'  => $og_offset,
+    );
+
+  ob_start();
+
 
   $classes_box = array('box','box-blog-post','has-hover');
   $classes_image = array();
@@ -161,7 +186,38 @@ function flatep_ux_events_list_grouped($atts, $content = null, $tag) {
   );
 
   $classes_col = array('product-category','col', 'evt-list-grouped-item');
+  // Repeater options
+  $repeater['id'] = $_id;
+  $repeater['class'] = $class;
+  $repeater['visibility'] = $visibility;
+  $repeater['tag'] = $tag;
+  $repeater['type'] = $type;
+  $repeater['style'] = $style;
+  $repeater['format'] = $image_height;
+  $repeater['slider_style'] = $slider_nav_style;
+  $repeater['slider_nav_color'] = $slider_nav_color;
+  $repeater['slider_nav_position'] = $slider_nav_position;
+  $repeater['slider_bullets'] = $slider_bullets;
+  $repeater['auto_slide'] = $auto_slide;
+$repeater['infinitive'] = $infinitive;
+  $repeater['row_spacing'] = $col_spacing;
+  $repeater['row_width'] = $width;
+  $repeater['columns'] = $columns;
+  $repeater['columns__sm'] = $columns__sm;
+  $repeater['columns__md'] = $columns__md;
+  $repeater['depth'] = $depth;
+  $repeater['depth_hover'] = $depth_hover;
 
+
+  get_flatsome_repeater_start($repeater);
+
+  // if og_category
+  if ( isset( $atts[ 'og_category' ] ) ) {
+    $og_category = explode( ',', $atts[ 'og_category' ] );
+    $og_category = array_map( 'trim', $og_category );
+  } else {
+    $og_category = '';
+  }
 
   if($type == 'grid'){
     if($grid_total > $current_grid) $current_grid++;
@@ -176,13 +232,7 @@ function flatep_ux_events_list_grouped($atts, $content = null, $tag) {
     if($grid[$current]['size'] == 'medium') $thumbnail_size = 'medium';
 }
   
-  // if og_category
-  if ( isset( $atts[ 'og_category' ] ) ) {
-    $og_category = explode( ',', $atts[ 'og_category' ] );
-    $og_category = array_map( 'trim', $og_category );
-  } else {
-    $og_category = '';
-  }
+  
   //-> event status
   /*
   * Limit search to events with a spefic status (1 is active, 0 is pending approval) Default Value: 1
@@ -196,35 +246,8 @@ function flatep_ux_events_list_grouped($atts, $content = null, $tag) {
   $columns__sm = ($columns__sm > 0) ? $columns__sm : $columns__md;
 
   $css_cols = 'large-columns-' . $columns . ' medium-columns-' . $columns__md . ' small-columns-' . $columns__sm; */
-  ob_start();
-  // Repeater options
-  $repater['id'] = $_id;
-  $repater['class'] = $class;
-  $repater['visibility'] = $visibility;
-  $repater['tag'] = $tag;
-  $repater['type'] = $type;
-  $repater['style'] = $style;
-  $repater['format'] = $image_height;
-  $repater['slider_style'] = $slider_nav_style;
-  $repater['slider_nav_color'] = $slider_nav_color;
-  $repater['slider_nav_position'] = $slider_nav_position;
-  $repater['slider_bullets'] = $slider_bullets;
-  $repater['auto_slide'] = $auto_slide;
-  $repater['row_spacing'] = $col_spacing;
-  $repater['row_width'] = $width;
-  $repater['columns'] = $columns;
-  $repater['columns__sm'] = $columns__sm;
-  $repater['columns__md'] = $columns__md;
-  $repater['depth'] = $depth;
-  $repater['depth_hover'] = $depth_hover;
 
-
-  get_flatsome_repeater_start($repater);
-
-  
-  
   $og_header = ob_get_contents();
-  ob_end_clean();
   //$og_header = '<div class="row row-masonry '. $css_cols .'">';
   $og_header .= (!empty($title)) ? '<h2 class="uppercase" style="text-align: center;">' . $title . '</h2>' : '';
   $og_footer = '</div>';
@@ -249,7 +272,7 @@ function flatep_ux_events_list_grouped($atts, $content = null, $tag) {
     $evt_classes = array('is-xsmall', 'uppercase');
   }  
 
-  ob_start();
+  
       ?>
       
         <div class="<?php echo implode(' ', $classes_col); ?>" <?php echo $animate;?> title="<?php echo $og_scope; ?>">
@@ -324,9 +347,10 @@ function flatep_ux_events_list_grouped($atts, $content = null, $tag) {
         
       );
 
-
+      get_flatsome_repeater_end($repeater);
       $args = apply_filters('em_content_events_args', $og_args);
       $content = EM_Events::output_grouped($og_args);
+      ob_end_clean();
       return $content;
 }
 

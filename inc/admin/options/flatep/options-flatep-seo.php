@@ -1,5 +1,5 @@
 <?php
-global $transport;
+
 /*************
  * FlaTep Child Panel - SEO - SEO and Accessibility options
  *************/
@@ -50,27 +50,16 @@ Flatsome_Option::add_field( 'option', array(
 	'type'        => 'text',
 	'settings'    => 'flatep_seo_woo_prod_link_before',
 	'label'       => __( 'Words to add before products title links', 'flatsome-admin' ),
-	'description' => __( 'Products links title seem : <br /> [Before] [Attrs] Product_name [After]', 'flatsome-admin' ),
+	'description' => __( 'Products links title semm : <br /> Before Product_name After', 'flatsome-admin' ),
 	'section'     => 'flatep-options-seo',
 	'transport'   => 'postMessage',
-) );
-
-Flatsome_Option::add_field( 'option', array(
-	'type'      => 'sortable',
-	'settings'  => 'flatep_seo_woo_prod_link_attr',
-	'label'         => __( 'List of attributes to show.', 'flatsome-admin' ),
-	'section'   => 'flatep-options-seo',
-	'transport' => $transport,
-	'multiple'  => 99,
-	'default'   => array( ),
-	'choices'   => flatep_get_products_attributes_list(),
 ) );
 
 Flatsome_Option::add_field( 'option', array(
 	'type'        => 'text',
 	'settings'    => 'flatep_seo_woo_prod_link_after',
 	'label'       => __( 'Words to add after products title links', 'flatsome-admin' ),
-	'description' => __( 'Products links title seem : <br /> [Before] [Attrs] Product_name [After]', 'flatsome-admin' ),
+	'description' => __( 'Products links title semm : <br /> Before Product_name After', 'flatsome-admin' ),
 	'section'     => 'flatep-options-seo',
 	'transport'   => 'postMessage',
 ) );
